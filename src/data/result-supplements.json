@@ -1,0 +1,12 @@
+[
+  {
+    "matchId": "M020",
+    "home": "Australia",
+    "away": "Turkey",
+    "homeScore": 2,
+    "awayScore": 0,
+    "sourceName": "ESPN / FOX Sports final score",
+    "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760421/turkiye-australia",
+    "verifiedAt": "2026-06-14T15:39:56.4775891+08:00"
+  }
+]

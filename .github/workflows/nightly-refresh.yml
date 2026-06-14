@@ -1,0 +1,30 @@
+name: Nightly data refresh
+
+on:
+  schedule:
+    # 13:00 UTC = 21:00 Asia/Shanghai
+    - cron: "0 13 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Export nightly snapshot
+        run: npm run export:nightly-snapshot
+        env:
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+      - name: Commit refreshed snapshot
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: refresh nightly world cup data"
+          file_pattern: src/data/nightly-snapshot.json

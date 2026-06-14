@@ -1,0 +1,1901 @@
+{
+  "generatedAt": "2026-06-12T13:46:45.245Z",
+  "sources": [
+    {
+      "name": "openfootball/worldcup 2026 schedule",
+      "url": "https://raw.githubusercontent.com/openfootball/worldcup/master/2026--usa/cup.txt",
+      "fetchedAt": "2026-06-12T13:46:45.246Z",
+      "usage": "2026 groups and fixtures"
+    },
+    {
+      "name": "martj42 international_results",
+      "url": "https://raw.githubusercontent.com/martj42/international_results/master/results.csv",
+      "fetchedAt": "2026-06-12T13:46:45.246Z",
+      "usage": "Elo ratings and recent form"
+    },
+    {
+      "name": "openfootball/worldcup historical cups",
+      "url": "https://github.com/openfootball/worldcup",
+      "fetchedAt": "2026-06-12T13:46:45.246Z",
+      "usage": "2006-2022 backtest fixtures and results"
+    }
+  ],
+  "groups": [
+    {
+      "id": "A",
+      "teams": [
+        "Mexico",
+        "South Africa",
+        "South Korea",
+        "Czech Republic"
+      ]
+    },
+    {
+      "id": "B",
+      "teams": [
+        "Canada",
+        "Bosnia & Herzegovina",
+        "Qatar",
+        "Switzerland"
+      ]
+    },
+    {
+      "id": "C",
+      "teams": [
+        "Brazil",
+        "Morocco",
+        "Haiti",
+        "Scotland"
+      ]
+    },
+    {
+      "id": "D",
+      "teams": [
+        "USA",
+        "Paraguay",
+        "Australia",
+        "Turkey"
+      ]
+    },
+    {
+      "id": "E",
+      "teams": [
+        "Germany",
+        "Curaçao",
+        "Ivory Coast",
+        "Ecuador"
+      ]
+    },
+    {
+      "id": "F",
+      "teams": [
+        "Netherlands",
+        "Japan",
+        "Sweden",
+        "Tunisia"
+      ]
+    },
+    {
+      "id": "G",
+      "teams": [
+        "Belgium",
+        "Egypt",
+        "Iran",
+        "New Zealand"
+      ]
+    },
+    {
+      "id": "H",
+      "teams": [
+        "Spain",
+        "Cape Verde",
+        "Saudi Arabia",
+        "Uruguay"
+      ]
+    },
+    {
+      "id": "I",
+      "teams": [
+        "France",
+        "Senegal",
+        "Iraq",
+        "Norway"
+      ]
+    },
+    {
+      "id": "J",
+      "teams": [
+        "Argentina",
+        "Algeria",
+        "Austria",
+        "Jordan"
+      ]
+    },
+    {
+      "id": "K",
+      "teams": [
+        "Portugal",
+        "DR Congo",
+        "Uzbekistan",
+        "Colombia"
+      ]
+    },
+    {
+      "id": "L",
+      "teams": [
+        "England",
+        "Croatia",
+        "Ghana",
+        "Panama"
+      ]
+    }
+  ],
+  "teams": [
+    {
+      "id": "mexico",
+      "name": "Mexico",
+      "group": "A",
+      "confederation": "CONCACAF",
+      "isHost": true,
+      "elo": 1966,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 2,
+        "losses": 1,
+        "goalsFor": 18,
+        "goalsAgainst": 4
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "south-africa",
+      "name": "South Africa",
+      "group": "A",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1660,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 2,
+        "losses": 4,
+        "goalsFor": 12,
+        "goalsAgainst": 12
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "south-korea",
+      "name": "South Korea",
+      "group": "A",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1897,
+      "recentForm": {
+        "matches": 10,
+        "wins": 6,
+        "draws": 1,
+        "losses": 3,
+        "goalsFor": 15,
+        "goalsAgainst": 13
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "czech-republic",
+      "name": "Czech Republic",
+      "group": "A",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1752,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 4,
+        "losses": 2,
+        "goalsFor": 21,
+        "goalsAgainst": 11
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "canada",
+      "name": "Canada",
+      "group": "B",
+      "confederation": "CONCACAF",
+      "isHost": true,
+      "elo": 1881,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 5,
+        "losses": 1,
+        "goalsFor": 11,
+        "goalsAgainst": 4
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "bosnia-herzegovina",
+      "name": "Bosnia & Herzegovina",
+      "group": "B",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1620,
+      "recentForm": {
+        "matches": 10,
+        "wins": 3,
+        "draws": 6,
+        "losses": 1,
+        "goalsFor": 20,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "qatar",
+      "name": "Qatar",
+      "group": "B",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1607,
+      "recentForm": {
+        "matches": 10,
+        "wins": 1,
+        "draws": 4,
+        "losses": 5,
+        "goalsFor": 7,
+        "goalsAgainst": 15
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "switzerland",
+      "name": "Switzerland",
+      "group": "B",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1911,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 4,
+        "losses": 1,
+        "goalsFor": 22,
+        "goalsAgainst": 8
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "brazil",
+      "name": "Brazil",
+      "group": "C",
+      "confederation": "CONMEBOL",
+      "isHost": false,
+      "elo": 2045,
+      "recentForm": {
+        "matches": 10,
+        "wins": 6,
+        "draws": 1,
+        "losses": 3,
+        "goalsFor": 25,
+        "goalsAgainst": 11
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "morocco",
+      "name": "Morocco",
+      "group": "C",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1970,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 3,
+        "losses": 0,
+        "goalsFor": 22,
+        "goalsAgainst": 3
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "haiti",
+      "name": "Haiti",
+      "group": "C",
+      "confederation": "CONCACAF",
+      "isHost": false,
+      "elo": 1704,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 3,
+        "losses": 3,
+        "goalsFor": 15,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "scotland",
+      "name": "Scotland",
+      "group": "C",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1823,
+      "recentForm": {
+        "matches": 10,
+        "wins": 6,
+        "draws": 1,
+        "losses": 3,
+        "goalsFor": 21,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "usa",
+      "name": "USA",
+      "group": "D",
+      "confederation": "CONCACAF",
+      "isHost": true,
+      "elo": 1858,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 1,
+        "losses": 4,
+        "goalsFor": 18,
+        "goalsAgainst": 17
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "paraguay",
+      "name": "Paraguay",
+      "group": "D",
+      "confederation": "CONMEBOL",
+      "isHost": false,
+      "elo": 1867,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 2,
+        "losses": 4,
+        "goalsFor": 12,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "australia",
+      "name": "Australia",
+      "group": "D",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1900,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 1,
+        "losses": 4,
+        "goalsFor": 13,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "turkey",
+      "name": "Turkey",
+      "group": "D",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1910,
+      "recentForm": {
+        "matches": 10,
+        "wins": 8,
+        "draws": 1,
+        "losses": 1,
+        "goalsFor": 25,
+        "goalsAgainst": 13
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "germany",
+      "name": "Germany",
+      "group": "E",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1990,
+      "recentForm": {
+        "matches": 10,
+        "wins": 9,
+        "draws": 0,
+        "losses": 1,
+        "goalsFor": 28,
+        "goalsAgainst": 8
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "cura-ao",
+      "name": "Curaçao",
+      "group": "E",
+      "confederation": "CONCACAF",
+      "isHost": false,
+      "elo": 1621,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 3,
+        "losses": 3,
+        "goalsFor": 19,
+        "goalsAgainst": 14
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "ivory-coast",
+      "name": "Ivory Coast",
+      "group": "E",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1782,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 1,
+        "losses": 2,
+        "goalsFor": 19,
+        "goalsAgainst": 8
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "ecuador",
+      "name": "Ecuador",
+      "group": "E",
+      "confederation": "CONMEBOL",
+      "isHost": false,
+      "elo": 1979,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 6,
+        "losses": 0,
+        "goalsFor": 12,
+        "goalsAgainst": 5
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "netherlands",
+      "name": "Netherlands",
+      "group": "F",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 2002,
+      "recentForm": {
+        "matches": 10,
+        "wins": 6,
+        "draws": 3,
+        "losses": 1,
+        "goalsFor": 22,
+        "goalsAgainst": 8
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "japan",
+      "name": "Japan",
+      "group": "F",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1982,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 2,
+        "losses": 1,
+        "goalsFor": 19,
+        "goalsAgainst": 6
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "sweden",
+      "name": "Sweden",
+      "group": "F",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1740,
+      "recentForm": {
+        "matches": 10,
+        "wins": 2,
+        "draws": 3,
+        "losses": 5,
+        "goalsFor": 13,
+        "goalsAgainst": 20
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "tunisia",
+      "name": "Tunisia",
+      "group": "F",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1742,
+      "recentForm": {
+        "matches": 10,
+        "wins": 3,
+        "draws": 4,
+        "losses": 3,
+        "goalsFor": 13,
+        "goalsAgainst": 14
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "belgium",
+      "name": "Belgium",
+      "group": "G",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1927,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 3,
+        "losses": 0,
+        "goalsFor": 37,
+        "goalsAgainst": 6
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "egypt",
+      "name": "Egypt",
+      "group": "G",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1785,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 3,
+        "losses": 2,
+        "goalsFor": 13,
+        "goalsAgainst": 6
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "iran",
+      "name": "Iran",
+      "group": "G",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1889,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 2,
+        "losses": 3,
+        "goalsFor": 17,
+        "goalsAgainst": 6
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "new-zealand",
+      "name": "New Zealand",
+      "group": "G",
+      "confederation": "OFC",
+      "isHost": false,
+      "elo": 1766,
+      "recentForm": {
+        "matches": 10,
+        "wins": 1,
+        "draws": 1,
+        "losses": 8,
+        "goalsFor": 7,
+        "goalsAgainst": 18
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "spain",
+      "name": "Spain",
+      "group": "H",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 2182,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 3,
+        "losses": 0,
+        "goalsFor": 28,
+        "goalsAgainst": 4
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "cape-verde",
+      "name": "Cape Verde",
+      "group": "H",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1630,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 4,
+        "losses": 2,
+        "goalsFor": 16,
+        "goalsAgainst": 12
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "saudi-arabia",
+      "name": "Saudi Arabia",
+      "group": "H",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1701,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 1,
+        "losses": 5,
+        "goalsFor": 12,
+        "goalsAgainst": 13
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "uruguay",
+      "name": "Uruguay",
+      "group": "H",
+      "confederation": "CONMEBOL",
+      "isHost": false,
+      "elo": 1958,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 4,
+        "losses": 2,
+        "goalsFor": 10,
+        "goalsAgainst": 9
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "france",
+      "name": "France",
+      "group": "I",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 2107,
+      "recentForm": {
+        "matches": 10,
+        "wins": 8,
+        "draws": 1,
+        "losses": 1,
+        "goalsFor": 25,
+        "goalsAgainst": 9
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "senegal",
+      "name": "Senegal",
+      "group": "I",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1888,
+      "recentForm": {
+        "matches": 10,
+        "wins": 6,
+        "draws": 2,
+        "losses": 2,
+        "goalsFor": 16,
+        "goalsAgainst": 9
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "iraq",
+      "name": "Iraq",
+      "group": "I",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1735,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 2,
+        "losses": 3,
+        "goalsFor": 11,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "norway",
+      "name": "Norway",
+      "group": "I",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1929,
+      "recentForm": {
+        "matches": 10,
+        "wins": 6,
+        "draws": 3,
+        "losses": 1,
+        "goalsFor": 31,
+        "goalsAgainst": 8
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "argentina",
+      "name": "Argentina",
+      "group": "J",
+      "confederation": "CONMEBOL",
+      "isHost": false,
+      "elo": 2153,
+      "recentForm": {
+        "matches": 10,
+        "wins": 8,
+        "draws": 1,
+        "losses": 1,
+        "goalsFor": 25,
+        "goalsAgainst": 3
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "algeria",
+      "name": "Algeria",
+      "group": "J",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1854,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 2,
+        "losses": 1,
+        "goalsFor": 21,
+        "goalsAgainst": 4
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "austria",
+      "name": "Austria",
+      "group": "J",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1848,
+      "recentForm": {
+        "matches": 10,
+        "wins": 8,
+        "draws": 1,
+        "losses": 1,
+        "goalsFor": 27,
+        "goalsAgainst": 4
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "jordan",
+      "name": "Jordan",
+      "group": "J",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1773,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 2,
+        "losses": 3,
+        "goalsFor": 17,
+        "goalsAgainst": 15
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "portugal",
+      "name": "Portugal",
+      "group": "K",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 2035,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 2,
+        "losses": 1,
+        "goalsFor": 26,
+        "goalsAgainst": 9
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "dr-congo",
+      "name": "DR Congo",
+      "group": "K",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1734,
+      "recentForm": {
+        "matches": 10,
+        "wins": 5,
+        "draws": 3,
+        "losses": 2,
+        "goalsFor": 11,
+        "goalsAgainst": 5
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "uzbekistan",
+      "name": "Uzbekistan",
+      "group": "K",
+      "confederation": "AFC",
+      "isHost": false,
+      "elo": 1816,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 3,
+        "losses": 3,
+        "goalsFor": 14,
+        "goalsAgainst": 9
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "colombia",
+      "name": "Colombia",
+      "group": "K",
+      "confederation": "CONMEBOL",
+      "isHost": false,
+      "elo": 2029,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 1,
+        "losses": 2,
+        "goalsFor": 25,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "england",
+      "name": "England",
+      "group": "L",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 2076,
+      "recentForm": {
+        "matches": 10,
+        "wins": 8,
+        "draws": 1,
+        "losses": 1,
+        "goalsFor": 24,
+        "goalsAgainst": 2
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "croatia",
+      "name": "Croatia",
+      "group": "L",
+      "confederation": "UEFA",
+      "isHost": false,
+      "elo": 1957,
+      "recentForm": {
+        "matches": 10,
+        "wins": 7,
+        "draws": 1,
+        "losses": 2,
+        "goalsFor": 19,
+        "goalsAgainst": 10
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "ghana",
+      "name": "Ghana",
+      "group": "L",
+      "confederation": "CAF",
+      "isHost": false,
+      "elo": 1634,
+      "recentForm": {
+        "matches": 10,
+        "wins": 3,
+        "draws": 2,
+        "losses": 5,
+        "goalsFor": 11,
+        "goalsAgainst": 14
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    },
+    {
+      "id": "panama",
+      "name": "Panama",
+      "group": "L",
+      "confederation": "CONCACAF",
+      "isHost": false,
+      "elo": 1848,
+      "recentForm": {
+        "matches": 10,
+        "wins": 4,
+        "draws": 4,
+        "losses": 2,
+        "goalsFor": 18,
+        "goalsAgainst": 16
+      },
+      "fifaRank": null,
+      "marketValueEurM": null
+    }
+  ],
+  "fixtures": [
+    {
+      "id": "M001",
+      "matchNumber": 1,
+      "stage": "group",
+      "group": "A",
+      "dateLabel": "Thu June 11, 13:00 UTC-6",
+      "sortDate": "2026-06-11T19:00:00.000Z",
+      "home": "Mexico",
+      "away": "South Africa",
+      "venue": "Mexico City"
+    },
+    {
+      "id": "M002",
+      "matchNumber": 2,
+      "stage": "group",
+      "group": "A",
+      "dateLabel": "Thu June 11, 20:00 UTC-6",
+      "sortDate": "2026-06-12T02:00:00.000Z",
+      "home": "South Korea",
+      "away": "Czech Republic",
+      "venue": "Guadalajara (Zapopan)"
+    },
+    {
+      "id": "M003",
+      "matchNumber": 3,
+      "stage": "group",
+      "group": "A",
+      "dateLabel": "Thu June 18, 12:00 UTC-4",
+      "sortDate": "2026-06-18T16:00:00.000Z",
+      "home": "Czech Republic",
+      "away": "South Africa",
+      "venue": "Atlanta"
+    },
+    {
+      "id": "M004",
+      "matchNumber": 4,
+      "stage": "group",
+      "group": "A",
+      "dateLabel": "Thu June 18, 19:00 UTC-6",
+      "sortDate": "2026-06-19T01:00:00.000Z",
+      "home": "Mexico",
+      "away": "South Korea",
+      "venue": "Guadalajara (Zapopan)"
+    },
+    {
+      "id": "M005",
+      "matchNumber": 5,
+      "stage": "group",
+      "group": "A",
+      "dateLabel": "Wed June 24, 19:00 UTC-6",
+      "sortDate": "2026-06-25T01:00:00.000Z",
+      "home": "Czech Republic",
+      "away": "Mexico",
+      "venue": "Mexico City"
+    },
+    {
+      "id": "M006",
+      "matchNumber": 6,
+      "stage": "group",
+      "group": "A",
+      "dateLabel": "Wed June 24, 19:00 UTC-6",
+      "sortDate": "2026-06-25T01:00:00.000Z",
+      "home": "South Africa",
+      "away": "South Korea",
+      "venue": "Monterrey (Guadalupe)"
+    },
+    {
+      "id": "M007",
+      "matchNumber": 7,
+      "stage": "group",
+      "group": "B",
+      "dateLabel": "Fri June 12, 15:00 UTC-4",
+      "sortDate": "2026-06-12T19:00:00.000Z",
+      "home": "Canada",
+      "away": "Bosnia & Herzegovina",
+      "venue": "Toronto"
+    },
+    {
+      "id": "M008",
+      "matchNumber": 8,
+      "stage": "group",
+      "group": "B",
+      "dateLabel": "Sat June 13, 12:00 UTC-7",
+      "sortDate": "2026-06-13T19:00:00.000Z",
+      "home": "Qatar",
+      "away": "Switzerland",
+      "venue": "San Francisco Bay Area (Santa Clara)"
+    },
+    {
+      "id": "M009",
+      "matchNumber": 9,
+      "stage": "group",
+      "group": "B",
+      "dateLabel": "Thu June 18, 12:00 UTC-7",
+      "sortDate": "2026-06-18T19:00:00.000Z",
+      "home": "Switzerland",
+      "away": "Bosnia & Herzegovina",
+      "venue": "Los Angeles (Inglewood)"
+    },
+    {
+      "id": "M010",
+      "matchNumber": 10,
+      "stage": "group",
+      "group": "B",
+      "dateLabel": "Thu June 18, 15:00 UTC-7",
+      "sortDate": "2026-06-18T22:00:00.000Z",
+      "home": "Canada",
+      "away": "Qatar",
+      "venue": "Vancouver"
+    },
+    {
+      "id": "M011",
+      "matchNumber": 11,
+      "stage": "group",
+      "group": "B",
+      "dateLabel": "Wed June 24, 12:00 UTC-7",
+      "sortDate": "2026-06-24T19:00:00.000Z",
+      "home": "Switzerland",
+      "away": "Canada",
+      "venue": "Vancouver"
+    },
+    {
+      "id": "M012",
+      "matchNumber": 12,
+      "stage": "group",
+      "group": "B",
+      "dateLabel": "Wed June 24, 12:00 UTC-7",
+      "sortDate": "2026-06-24T19:00:00.000Z",
+      "home": "Bosnia & Herzegovina",
+      "away": "Qatar",
+      "venue": "Seattle"
+    },
+    {
+      "id": "M013",
+      "matchNumber": 13,
+      "stage": "group",
+      "group": "C",
+      "dateLabel": "Sat June 13, 18:00 UTC-4",
+      "sortDate": "2026-06-13T22:00:00.000Z",
+      "home": "Brazil",
+      "away": "Morocco",
+      "venue": "New York/New Jersey (East Rutherford)"
+    },
+    {
+      "id": "M014",
+      "matchNumber": 14,
+      "stage": "group",
+      "group": "C",
+      "dateLabel": "Sat June 13, 21:00 UTC-4",
+      "sortDate": "2026-06-14T01:00:00.000Z",
+      "home": "Haiti",
+      "away": "Scotland",
+      "venue": "Boston (Foxborough)"
+    },
+    {
+      "id": "M015",
+      "matchNumber": 15,
+      "stage": "group",
+      "group": "C",
+      "dateLabel": "Fri June 19, 18:00 UTC-4",
+      "sortDate": "2026-06-19T22:00:00.000Z",
+      "home": "Scotland",
+      "away": "Morocco",
+      "venue": "Boston (Foxborough)"
+    },
+    {
+      "id": "M016",
+      "matchNumber": 16,
+      "stage": "group",
+      "group": "C",
+      "dateLabel": "Fri June 19, 20:30 UTC-4",
+      "sortDate": "2026-06-20T00:30:00.000Z",
+      "home": "Brazil",
+      "away": "Haiti",
+      "venue": "Philadelphia"
+    },
+    {
+      "id": "M017",
+      "matchNumber": 17,
+      "stage": "group",
+      "group": "C",
+      "dateLabel": "Wed June 24, 18:00 UTC-4",
+      "sortDate": "2026-06-24T22:00:00.000Z",
+      "home": "Scotland",
+      "away": "Brazil",
+      "venue": "Miami (Miami Gardens)"
+    },
+    {
+      "id": "M018",
+      "matchNumber": 18,
+      "stage": "group",
+      "group": "C",
+      "dateLabel": "Wed June 24, 18:00 UTC-4",
+      "sortDate": "2026-06-24T22:00:00.000Z",
+      "home": "Morocco",
+      "away": "Haiti",
+      "venue": "Atlanta"
+    },
+    {
+      "id": "M019",
+      "matchNumber": 19,
+      "stage": "group",
+      "group": "D",
+      "dateLabel": "Fri June 12, 18:00 UTC-7",
+      "sortDate": "2026-06-13T01:00:00.000Z",
+      "home": "USA",
+      "away": "Paraguay",
+      "venue": "Los Angeles (Inglewood)"
+    },
+    {
+      "id": "M020",
+      "matchNumber": 20,
+      "stage": "group",
+      "group": "D",
+      "dateLabel": "Sat June 13, 21:00 UTC-7",
+      "sortDate": "2026-06-14T04:00:00.000Z",
+      "home": "Australia",
+      "away": "Turkey",
+      "venue": "Vancouver"
+    },
+    {
+      "id": "M021",
+      "matchNumber": 21,
+      "stage": "group",
+      "group": "D",
+      "dateLabel": "Fri June 19, 12:00 UTC-7",
+      "sortDate": "2026-06-19T19:00:00.000Z",
+      "home": "USA",
+      "away": "Australia",
+      "venue": "Seattle"
+    },
+    {
+      "id": "M022",
+      "matchNumber": 22,
+      "stage": "group",
+      "group": "D",
+      "dateLabel": "Fri June 19, 20:00 UTC-7",
+      "sortDate": "2026-06-20T03:00:00.000Z",
+      "home": "Turkey",
+      "away": "Paraguay",
+      "venue": "San Francisco Bay Area (Santa Clara)"
+    },
+    {
+      "id": "M023",
+      "matchNumber": 23,
+      "stage": "group",
+      "group": "D",
+      "dateLabel": "Thu June 25, 19:00 UTC-7",
+      "sortDate": "2026-06-26T02:00:00.000Z",
+      "home": "Turkey",
+      "away": "USA",
+      "venue": "Los Angeles (Inglewood)"
+    },
+    {
+      "id": "M024",
+      "matchNumber": 24,
+      "stage": "group",
+      "group": "D",
+      "dateLabel": "Thu June 25, 19:00 UTC-7",
+      "sortDate": "2026-06-26T02:00:00.000Z",
+      "home": "Paraguay",
+      "away": "Australia",
+      "venue": "San Francisco Bay Area (Santa Clara)"
+    },
+    {
+      "id": "M025",
+      "matchNumber": 25,
+      "stage": "group",
+      "group": "E",
+      "dateLabel": "Sun June 14, 12:00 UTC-5",
+      "sortDate": "2026-06-14T17:00:00.000Z",
+      "home": "Germany",
+      "away": "Curaçao",
+      "venue": "Houston"
+    },
+    {
+      "id": "M026",
+      "matchNumber": 26,
+      "stage": "group",
+      "group": "E",
+      "dateLabel": "Sun June 14, 19:00 UTC-4",
+      "sortDate": "2026-06-14T23:00:00.000Z",
+      "home": "Ivory Coast",
+      "away": "Ecuador",
+      "venue": "Philadelphia"
+    },
+    {
+      "id": "M027",
+      "matchNumber": 27,
+      "stage": "group",
+      "group": "E",
+      "dateLabel": "Sat June 20, 16:00 UTC-4",
+      "sortDate": "2026-06-20T20:00:00.000Z",
+      "home": "Germany",
+      "away": "Ivory Coast",
+      "venue": "Toronto"
+    },
+    {
+      "id": "M028",
+      "matchNumber": 28,
+      "stage": "group",
+      "group": "E",
+      "dateLabel": "Sat June 20, 19:00 UTC-5",
+      "sortDate": "2026-06-21T00:00:00.000Z",
+      "home": "Ecuador",
+      "away": "Curaçao",
+      "venue": "Kansas City"
+    },
+    {
+      "id": "M029",
+      "matchNumber": 29,
+      "stage": "group",
+      "group": "E",
+      "dateLabel": "Thu June 25, 16:00 UTC-4",
+      "sortDate": "2026-06-25T20:00:00.000Z",
+      "home": "Curaçao",
+      "away": "Ivory Coast",
+      "venue": "Philadelphia"
+    },
+    {
+      "id": "M030",
+      "matchNumber": 30,
+      "stage": "group",
+      "group": "E",
+      "dateLabel": "Thu June 25, 16:00 UTC-4",
+      "sortDate": "2026-06-25T20:00:00.000Z",
+      "home": "Ecuador",
+      "away": "Germany",
+      "venue": "New York/New Jersey (East Rutherford)"
+    },
+    {
+      "id": "M031",
+      "matchNumber": 31,
+      "stage": "group",
+      "group": "F",
+      "dateLabel": "Sun June 14, 15:00 UTC-5",
+      "sortDate": "2026-06-14T20:00:00.000Z",
+      "home": "Netherlands",
+      "away": "Japan",
+      "venue": "Dallas (Arlington)"
+    },
+    {
+      "id": "M032",
+      "matchNumber": 32,
+      "stage": "group",
+      "group": "F",
+      "dateLabel": "Sun June 14, 20:00 UTC-6",
+      "sortDate": "2026-06-15T02:00:00.000Z",
+      "home": "Sweden",
+      "away": "Tunisia",
+      "venue": "Monterrey (Guadalupe)"
+    },
+    {
+      "id": "M033",
+      "matchNumber": 33,
+      "stage": "group",
+      "group": "F",
+      "dateLabel": "Sat June 20, 12:00 UTC-5",
+      "sortDate": "2026-06-20T17:00:00.000Z",
+      "home": "Netherlands",
+      "away": "Sweden",
+      "venue": "Houston"
+    },
+    {
+      "id": "M034",
+      "matchNumber": 34,
+      "stage": "group",
+      "group": "F",
+      "dateLabel": "Sat June 20, 22:00 UTC-6",
+      "sortDate": "2026-06-21T04:00:00.000Z",
+      "home": "Tunisia",
+      "away": "Japan",
+      "venue": "Monterrey (Guadalupe)"
+    },
+    {
+      "id": "M035",
+      "matchNumber": 35,
+      "stage": "group",
+      "group": "F",
+      "dateLabel": "Thu June 25, 18:00 UTC-5",
+      "sortDate": "2026-06-25T23:00:00.000Z",
+      "home": "Japan",
+      "away": "Sweden",
+      "venue": "Dallas (Arlington)"
+    },
+    {
+      "id": "M036",
+      "matchNumber": 36,
+      "stage": "group",
+      "group": "F",
+      "dateLabel": "Thu June 25, 18:00 UTC-5",
+      "sortDate": "2026-06-25T23:00:00.000Z",
+      "home": "Tunisia",
+      "away": "Netherlands",
+      "venue": "Kansas City"
+    },
+    {
+      "id": "M037",
+      "matchNumber": 37,
+      "stage": "group",
+      "group": "G",
+      "dateLabel": "Mon June 15, 12:00 UTC-7",
+      "sortDate": "2026-06-15T19:00:00.000Z",
+      "home": "Belgium",
+      "away": "Egypt",
+      "venue": "Seattle"
+    },
+    {
+      "id": "M038",
+      "matchNumber": 38,
+      "stage": "group",
+      "group": "G",
+      "dateLabel": "Mon June 15, 18:00 UTC-7",
+      "sortDate": "2026-06-16T01:00:00.000Z",
+      "home": "Iran",
+      "away": "New Zealand",
+      "venue": "Los Angeles (Inglewood)"
+    },
+    {
+      "id": "M039",
+      "matchNumber": 39,
+      "stage": "group",
+      "group": "G",
+      "dateLabel": "Sun June 21, 12:00 UTC-7",
+      "sortDate": "2026-06-21T19:00:00.000Z",
+      "home": "Belgium",
+      "away": "Iran",
+      "venue": "Los Angeles (Inglewood)"
+    },
+    {
+      "id": "M040",
+      "matchNumber": 40,
+      "stage": "group",
+      "group": "G",
+      "dateLabel": "Sun June 21, 18:00 UTC-7",
+      "sortDate": "2026-06-22T01:00:00.000Z",
+      "home": "New Zealand",
+      "away": "Egypt",
+      "venue": "Vancouver"
+    },
+    {
+      "id": "M041",
+      "matchNumber": 41,
+      "stage": "group",
+      "group": "G",
+      "dateLabel": "Fri June 26, 20:00 UTC-7",
+      "sortDate": "2026-06-27T03:00:00.000Z",
+      "home": "Egypt",
+      "away": "Iran",
+      "venue": "Seattle"
+    },
+    {
+      "id": "M042",
+      "matchNumber": 42,
+      "stage": "group",
+      "group": "G",
+      "dateLabel": "Fri June 26, 20:00 UTC-7",
+      "sortDate": "2026-06-27T03:00:00.000Z",
+      "home": "New Zealand",
+      "away": "Belgium",
+      "venue": "Vancouver"
+    },
+    {
+      "id": "M043",
+      "matchNumber": 43,
+      "stage": "group",
+      "group": "H",
+      "dateLabel": "Mon June 15, 12:00 UTC-4",
+      "sortDate": "2026-06-15T16:00:00.000Z",
+      "home": "Spain",
+      "away": "Cape Verde",
+      "venue": "Atlanta"
+    },
+    {
+      "id": "M044",
+      "matchNumber": 44,
+      "stage": "group",
+      "group": "H",
+      "dateLabel": "Mon June 15, 18:00 UTC-4",
+      "sortDate": "2026-06-15T22:00:00.000Z",
+      "home": "Saudi Arabia",
+      "away": "Uruguay",
+      "venue": "Miami (Miami Gardens)"
+    },
+    {
+      "id": "M045",
+      "matchNumber": 45,
+      "stage": "group",
+      "group": "H",
+      "dateLabel": "Sun June 21, 12:00 UTC-4",
+      "sortDate": "2026-06-21T16:00:00.000Z",
+      "home": "Spain",
+      "away": "Saudi Arabia",
+      "venue": "Atlanta"
+    },
+    {
+      "id": "M046",
+      "matchNumber": 46,
+      "stage": "group",
+      "group": "H",
+      "dateLabel": "Sun June 21, 18:00 UTC-4",
+      "sortDate": "2026-06-21T22:00:00.000Z",
+      "home": "Uruguay",
+      "away": "Cape Verde",
+      "venue": "Miami (Miami Gardens)"
+    },
+    {
+      "id": "M047",
+      "matchNumber": 47,
+      "stage": "group",
+      "group": "H",
+      "dateLabel": "Fri June 26, 19:00 UTC-5",
+      "sortDate": "2026-06-27T00:00:00.000Z",
+      "home": "Cape Verde",
+      "away": "Saudi Arabia",
+      "venue": "Houston"
+    },
+    {
+      "id": "M048",
+      "matchNumber": 48,
+      "stage": "group",
+      "group": "H",
+      "dateLabel": "Fri June 26, 18:00 UTC-6",
+      "sortDate": "2026-06-27T00:00:00.000Z",
+      "home": "Uruguay",
+      "away": "Spain",
+      "venue": "Guadalajara (Zapopan)"
+    },
+    {
+      "id": "M049",
+      "matchNumber": 49,
+      "stage": "group",
+      "group": "I",
+      "dateLabel": "Tue June 16, 15:00 UTC-4",
+      "sortDate": "2026-06-16T19:00:00.000Z",
+      "home": "France",
+      "away": "Senegal",
+      "venue": "New York/New Jersey (East Rutherford)"
+    },
+    {
+      "id": "M050",
+      "matchNumber": 50,
+      "stage": "group",
+      "group": "I",
+      "dateLabel": "Tue June 16, 18:00 UTC-4",
+      "sortDate": "2026-06-16T22:00:00.000Z",
+      "home": "Iraq",
+      "away": "Norway",
+      "venue": "Boston (Foxborough)"
+    },
+    {
+      "id": "M051",
+      "matchNumber": 51,
+      "stage": "group",
+      "group": "I",
+      "dateLabel": "Mon June 22, 17:00 UTC-4",
+      "sortDate": "2026-06-22T21:00:00.000Z",
+      "home": "France",
+      "away": "Iraq",
+      "venue": "Philadelphia"
+    },
+    {
+      "id": "M052",
+      "matchNumber": 52,
+      "stage": "group",
+      "group": "I",
+      "dateLabel": "Mon June 22, 20:00 UTC-4",
+      "sortDate": "2026-06-23T00:00:00.000Z",
+      "home": "Norway",
+      "away": "Senegal",
+      "venue": "New York/New Jersey (East Rutherford)"
+    },
+    {
+      "id": "M053",
+      "matchNumber": 53,
+      "stage": "group",
+      "group": "I",
+      "dateLabel": "Fri June 26, 15:00 UTC-4",
+      "sortDate": "2026-06-26T19:00:00.000Z",
+      "home": "Norway",
+      "away": "France",
+      "venue": "Boston (Foxborough)"
+    },
+    {
+      "id": "M054",
+      "matchNumber": 54,
+      "stage": "group",
+      "group": "I",
+      "dateLabel": "Fri June 26, 15:00 UTC-4",
+      "sortDate": "2026-06-26T19:00:00.000Z",
+      "home": "Senegal",
+      "away": "Iraq",
+      "venue": "Toronto"
+    },
+    {
+      "id": "M055",
+      "matchNumber": 55,
+      "stage": "group",
+      "group": "J",
+      "dateLabel": "Tue June 16, 20:00 UTC-5",
+      "sortDate": "2026-06-17T01:00:00.000Z",
+      "home": "Argentina",
+      "away": "Algeria",
+      "venue": "Kansas City"
+    },
+    {
+      "id": "M056",
+      "matchNumber": 56,
+      "stage": "group",
+      "group": "J",
+      "dateLabel": "Tue June 16, 21:00 UTC-7",
+      "sortDate": "2026-06-17T04:00:00.000Z",
+      "home": "Austria",
+      "away": "Jordan",
+      "venue": "San Francisco Bay Area (Santa Clara)"
+    },
+    {
+      "id": "M057",
+      "matchNumber": 57,
+      "stage": "group",
+      "group": "J",
+      "dateLabel": "Mon June 22, 12:00 UTC-5",
+      "sortDate": "2026-06-22T17:00:00.000Z",
+      "home": "Argentina",
+      "away": "Austria",
+      "venue": "Dallas (Arlington)"
+    },
+    {
+      "id": "M058",
+      "matchNumber": 58,
+      "stage": "group",
+      "group": "J",
+      "dateLabel": "Mon June 22, 20:00 UTC-7",
+      "sortDate": "2026-06-23T03:00:00.000Z",
+      "home": "Jordan",
+      "away": "Algeria",
+      "venue": "San Francisco Bay Area (Santa Clara)"
+    },
+    {
+      "id": "M059",
+      "matchNumber": 59,
+      "stage": "group",
+      "group": "J",
+      "dateLabel": "Sat June 27, 21:00 UTC-5",
+      "sortDate": "2026-06-28T02:00:00.000Z",
+      "home": "Algeria",
+      "away": "Austria",
+      "venue": "Kansas City"
+    },
+    {
+      "id": "M060",
+      "matchNumber": 60,
+      "stage": "group",
+      "group": "J",
+      "dateLabel": "Sat June 27, 21:00 UTC-5",
+      "sortDate": "2026-06-28T02:00:00.000Z",
+      "home": "Jordan",
+      "away": "Argentina",
+      "venue": "Dallas (Arlington)"
+    },
+    {
+      "id": "M061",
+      "matchNumber": 61,
+      "stage": "group",
+      "group": "K",
+      "dateLabel": "Wed June 17, 12:00 UTC-5",
+      "sortDate": "2026-06-17T17:00:00.000Z",
+      "home": "Portugal",
+      "away": "DR Congo",
+      "venue": "Houston"
+    },
+    {
+      "id": "M062",
+      "matchNumber": 62,
+      "stage": "group",
+      "group": "K",
+      "dateLabel": "Wed June 17, 20:00 UTC-6",
+      "sortDate": "2026-06-18T02:00:00.000Z",
+      "home": "Uzbekistan",
+      "away": "Colombia",
+      "venue": "Mexico City"
+    },
+    {
+      "id": "M063",
+      "matchNumber": 63,
+      "stage": "group",
+      "group": "K",
+      "dateLabel": "Tue June 23, 12:00 UTC-5",
+      "sortDate": "2026-06-23T17:00:00.000Z",
+      "home": "Portugal",
+      "away": "Uzbekistan",
+      "venue": "Houston"
+    },
+    {
+      "id": "M064",
+      "matchNumber": 64,
+      "stage": "group",
+      "group": "K",
+      "dateLabel": "Tue June 23, 20:00 UTC-6",
+      "sortDate": "2026-06-24T02:00:00.000Z",
+      "home": "Colombia",
+      "away": "DR Congo",
+      "venue": "Guadalajara (Zapopan)"
+    },
+    {
+      "id": "M065",
+      "matchNumber": 65,
+      "stage": "group",
+      "group": "K",
+      "dateLabel": "Sat June 27, 19:30 UTC-4",
+      "sortDate": "2026-06-27T23:30:00.000Z",
+      "home": "Colombia",
+      "away": "Portugal",
+      "venue": "Miami (Miami Gardens)"
+    },
+    {
+      "id": "M066",
+      "matchNumber": 66,
+      "stage": "group",
+      "group": "K",
+      "dateLabel": "Sat June 27, 19:30 UTC-4",
+      "sortDate": "2026-06-27T23:30:00.000Z",
+      "home": "DR Congo",
+      "away": "Uzbekistan",
+      "venue": "Atlanta"
+    },
+    {
+      "id": "M067",
+      "matchNumber": 67,
+      "stage": "group",
+      "group": "L",
+      "dateLabel": "Wed June 17, 15:00 UTC-5",
+      "sortDate": "2026-06-17T20:00:00.000Z",
+      "home": "England",
+      "away": "Croatia",
+      "venue": "Dallas (Arlington)"
+    },
+    {
+      "id": "M068",
+      "matchNumber": 68,
+      "stage": "group",
+      "group": "L",
+      "dateLabel": "Wed June 17, 19:00 UTC-4",
+      "sortDate": "2026-06-17T23:00:00.000Z",
+      "home": "Ghana",
+      "away": "Panama",
+      "venue": "Toronto"
+    },
+    {
+      "id": "M069",
+      "matchNumber": 69,
+      "stage": "group",
+      "group": "L",
+      "dateLabel": "Tue June 23, 16:00 UTC-4",
+      "sortDate": "2026-06-23T20:00:00.000Z",
+      "home": "England",
+      "away": "Ghana",
+      "venue": "Boston (Foxborough)"
+    },
+    {
+      "id": "M070",
+      "matchNumber": 70,
+      "stage": "group",
+      "group": "L",
+      "dateLabel": "Tue June 23, 19:00 UTC-4",
+      "sortDate": "2026-06-23T23:00:00.000Z",
+      "home": "Panama",
+      "away": "Croatia",
+      "venue": "Toronto"
+    },
+    {
+      "id": "M071",
+      "matchNumber": 71,
+      "stage": "group",
+      "group": "L",
+      "dateLabel": "Sat June 27, 17:00 UTC-4",
+      "sortDate": "2026-06-27T21:00:00.000Z",
+      "home": "Panama",
+      "away": "England",
+      "venue": "New York/New Jersey (East Rutherford)"
+    },
+    {
+      "id": "M072",
+      "matchNumber": 72,
+      "stage": "group",
+      "group": "L",
+      "dateLabel": "Sat June 27, 17:00 UTC-4",
+      "sortDate": "2026-06-27T21:00:00.000Z",
+      "home": "Croatia",
+      "away": "Ghana",
+      "venue": "Philadelphia"
+    }
+  ],
+  "calibration": {
+    "modelTemperature": 1,
+    "defaultMarketWeight": 0.65,
+    "optimizedMarketWeight": null,
+    "note": "已用 2006-2022 五届世界杯回测做模型概率温度校准；暂未导入可靠历史盘口，因此盘口融合权重先用默认值。"
+  },
+  "backtests": [
+    {
+      "year": 2006,
+      "champion": "Italy",
+      "actualChampionPreTournamentProbability": 0.042666666666666665,
+      "rawAccuracy": 0.625,
+      "rawBrier": 0.17462322196854374,
+      "rawLogLoss": 0.8932952288165915,
+      "matches": 48,
+      "accuracy": 0.625,
+      "brier": 0.17462322196854374,
+      "logLoss": 0.8932952288165915,
+      "highConfidence55Matches": 22,
+      "highConfidence55Accuracy": 0.6818181818181818,
+      "highConfidence60Matches": 12,
+      "highConfidence60Accuracy": 0.6666666666666666,
+      "highConfidence70Matches": 5,
+      "highConfidence70Accuracy": 1,
+      "overconfidentMatches": 5,
+      "overconfidentWrong": 0
+    },
+    {
+      "year": 2010,
+      "champion": "Spain",
+      "actualChampionPreTournamentProbability": 0.23466666666666666,
+      "rawAccuracy": 0.5416666666666666,
+      "rawBrier": 0.20551993128014914,
+      "rawLogLoss": 1.0285052595345492,
+      "matches": 48,
+      "accuracy": 0.5416666666666666,
+      "brier": 0.20551993128014914,
+      "logLoss": 1.0285052595345492,
+      "highConfidence55Matches": 18,
+      "highConfidence55Accuracy": 0.5555555555555556,
+      "highConfidence60Matches": 14,
+      "highConfidence60Accuracy": 0.5714285714285714,
+      "highConfidence70Matches": 4,
+      "highConfidence70Accuracy": 0.5,
+      "overconfidentMatches": 4,
+      "overconfidentWrong": 2
+    },
+    {
+      "year": 2014,
+      "champion": "Germany",
+      "actualChampionPreTournamentProbability": 0.15733333333333333,
+      "rawAccuracy": 0.5,
+      "rawBrier": 0.20257160256083712,
+      "rawLogLoss": 1.016659474833661,
+      "matches": 30,
+      "accuracy": 0.5,
+      "brier": 0.20257160256083712,
+      "logLoss": 1.016659474833661,
+      "highConfidence55Matches": 6,
+      "highConfidence55Accuracy": 0.6666666666666666,
+      "highConfidence60Matches": 4,
+      "highConfidence60Accuracy": 0.5,
+      "highConfidence70Matches": 2,
+      "highConfidence70Accuracy": 1,
+      "overconfidentMatches": 2,
+      "overconfidentWrong": 0
+    },
+    {
+      "year": 2018,
+      "champion": "France",
+      "actualChampionPreTournamentProbability": 0.06333333333333334,
+      "rawAccuracy": 0.5625,
+      "rawBrier": 0.19384798242972454,
+      "rawLogLoss": 0.9798565466472741,
+      "matches": 48,
+      "accuracy": 0.5625,
+      "brier": 0.19384798242972454,
+      "logLoss": 0.9798565466472741,
+      "highConfidence55Matches": 17,
+      "highConfidence55Accuracy": 0.7058823529411765,
+      "highConfidence60Matches": 11,
+      "highConfidence60Accuracy": 0.5454545454545454,
+      "highConfidence70Matches": 2,
+      "highConfidence70Accuracy": 1,
+      "overconfidentMatches": 2,
+      "overconfidentWrong": 0
+    },
+    {
+      "year": 2022,
+      "champion": "Argentina",
+      "actualChampionPreTournamentProbability": 0.148,
+      "rawAccuracy": 0.5208333333333334,
+      "rawBrier": 0.2095057189234962,
+      "rawLogLoss": 1.0673213387563232,
+      "matches": 48,
+      "accuracy": 0.5208333333333334,
+      "brier": 0.2095057189234962,
+      "logLoss": 1.0673213387563232,
+      "highConfidence55Matches": 19,
+      "highConfidence55Accuracy": 0.631578947368421,
+      "highConfidence60Matches": 17,
+      "highConfidence60Accuracy": 0.6470588235294118,
+      "highConfidence70Matches": 3,
+      "highConfidence70Accuracy": 0.3333333333333333,
+      "overconfidentMatches": 3,
+      "overconfidentWrong": 2
+    }
+  ]
+}
