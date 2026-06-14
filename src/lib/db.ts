@@ -83,6 +83,7 @@ function persist(db: Database): void {
 }
 
 export async function readOverrides(): Promise<OverrideResult[]> {
+  if (process.env.VERCEL) return [];
   await refreshAutoResultsIfStale().catch(() => undefined);
   const db = await openDb();
   const result = db.exec("SELECT match_id, home_score, away_score, note, updated_at FROM overrides ORDER BY updated_at DESC");
@@ -308,6 +309,7 @@ export async function deleteOverride(matchId: string): Promise<void> {
 }
 
 export async function readOdds(): Promise<OddsQuote[]> {
+  if (process.env.VERCEL) return readNightlySnapshotOdds();
   const db = await openDb();
   const result = db.exec(
     "SELECT match_id, provider, home_price, draw_price, away_price, quote_type, market_kind, fetched_at, source_url FROM odds_quotes ORDER BY fetched_at DESC"
@@ -358,6 +360,20 @@ export async function clearOdds(): Promise<void> {
 }
 
 export async function readTeamInputs(): Promise<TeamInput[]> {
+  if (process.env.VERCEL) {
+    return data.teams.map((team) => ({
+      teamName: team.name,
+      fifaRank: team.fifaRank,
+      marketValueEurM: team.marketValueEurM,
+      projectedXIValueEurM: null,
+      injuries: 0,
+      suspensions: 0,
+      keyAbsences: 0,
+      lineupCheckedAt: null,
+      updatedAt: data.generatedAt,
+      sourceUrl: "src/data/generated-data.json"
+    }));
+  }
   const db = await openDb();
   const result = db.exec(
     `SELECT team_name, fifa_rank, market_value_eur_m, projected_xi_value_eur_m,
