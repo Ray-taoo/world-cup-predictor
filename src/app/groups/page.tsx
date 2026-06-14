@@ -6,8 +6,6 @@ import { groupName, teamName } from "@/lib/i18n";
 import { runSimulation } from "@/lib/simulation";
 import { bestThirds, groupStandings } from "@/lib/standings";
 
-export const dynamic = "force-dynamic";
-
 export default async function GroupsPage() {
   const [overrides, odds, teamInputs] = await Promise.all([readOverrides(), readOdds(), readTeamInputs()]);
   const standings = groupStandings(overrides, odds, teamInputs);

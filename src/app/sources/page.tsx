@@ -15,8 +15,6 @@ import {
 } from "@/lib/team-freshness";
 import type { OddsQuote } from "@/lib/types";
 
-export const dynamic = "force-dynamic";
-
 export default async function SourcesPage() {
   const [overrides, odds, teamInputs] = await Promise.all([readOverrides(), readOdds(), readTeamInputs()]);
   const totalTeams = data.teams.length;

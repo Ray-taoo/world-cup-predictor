@@ -9,3 +9,4 @@ dist
 *.db
 tsconfig.tsbuildinfo
 .vercel
+out/

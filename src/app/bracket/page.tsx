@@ -4,8 +4,6 @@ import { pct } from "@/lib/format";
 import { bracketLabel, roundName, teamName } from "@/lib/i18n";
 import { runSimulation } from "@/lib/simulation";
 
-export const dynamic = "force-dynamic";
-
 export default async function BracketPage() {
   const [overrides, odds, teamInputs] = await Promise.all([readOverrides(), readOdds(), readTeamInputs()]);
   const simulation = runSimulation(overrides, odds, teamInputs, 10000);
