@@ -32,6 +32,7 @@ jobs:
       - name: Build static site
         run: |
           rm -rf src/app/api
+          find src/app -name 'page.tsx' -exec sed -i '/export const dynamic = "force-dynamic";/d' {} +
           GITHUB_PAGES_EXPORT=1 npm run build
       - uses: actions/upload-pages-artifact@v3
         with:

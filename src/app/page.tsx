@@ -16,6 +16,8 @@ import {
 import { oddsQuotesByMatchMap } from "@/lib/standings";
 import type { MatchPrediction, OverrideResult } from "@/lib/types";
 
+export const dynamic = "force-dynamic";
+
 export default async function HomePage() {
   const [overrides, odds, teamInputs] = await Promise.all([readOverrides(), readOdds(), readTeamInputs()]);
   const overrideMap = new Map(overrides.map((row) => [row.matchId, row]));

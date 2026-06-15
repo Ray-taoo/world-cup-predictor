@@ -7,6 +7,7 @@ const DATA_PATH = path.join(ROOT, "src", "data", "generated-data.json");
 const SUPPLEMENTAL_RESULTS_PATH = path.join(ROOT, "src", "data", "result-supplements.json");
 const DB_DIR = path.join(ROOT, ".local");
 const DB_PATH = path.join(DB_DIR, "worldcup.sqlite");
+const RESULTS_REFRESH_PATH = path.join(DB_DIR, "results-refresh.json");
 const WORLD_CUP_2026_URL = "https://raw.githubusercontent.com/openfootball/worldcup/master/2026--usa/cup.txt";
 const AUTO_NOTE_PREFIX = "自动抓取赛果";
 
@@ -52,6 +53,18 @@ async function main() {
   const supplemental = readSupplementalResults(fixtures);
   const combined = mergeResults([...matched, ...supplemental]);
   const summary = await upsertAutoResults(combined);
+  const state = {
+    lastAttemptAt: new Date().toISOString(),
+    lastSuccessAt: new Date().toISOString(),
+    status: "ok",
+    scoredFound: scored.length,
+    matched: matched.length,
+    supplemental: supplemental.length,
+    combined: combined.length,
+    insertedOrUpdated: summary.insertedOrUpdated,
+    preservedManual: summary.preservedManual
+  };
+  fs.writeFileSync(RESULTS_REFRESH_PATH, `${JSON.stringify(state, null, 2)}\n`, "utf8");
   console.log(
     JSON.stringify(
       {
