@@ -29,7 +29,7 @@ jobs:
     timeout-minutes: 14
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: 354c30c9bb5db4b7cfb7867ad2cd9507
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       D1_DATABASE_ID: fb8c88e6-41af-4f6f-b372-9fdfa5b72845
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
       WORLD_CUP_DATA_DIR: ${{ github.workspace }}/.local
