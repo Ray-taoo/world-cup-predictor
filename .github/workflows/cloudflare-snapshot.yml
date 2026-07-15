@@ -34,6 +34,7 @@ jobs:
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
       WORLD_CUP_DATA_DIR: ${{ github.workspace }}/.local
       SITE_SNAPSHOT_URL: http://127.0.0.1:3100
+      WORLDCUP_SITE_URL: http://127.0.0.1:3100
       SNAPSHOT_BUILD_ID: ${{ github.sha }}
       APP_ENV: snapshot
       MODEL_CHECK_MATCH_IDS: M099,M100,M101
