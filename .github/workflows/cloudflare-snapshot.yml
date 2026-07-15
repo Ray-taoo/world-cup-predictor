@@ -29,10 +29,8 @@ jobs:
     timeout-minutes: 14
     env:
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-      D1_DATABASE_ID: ${{ secrets.D1_DATABASE_ID }}
-      CRON_SECRET: ${{ secrets.CRON_SECRET }}
-      ADMIN_SECRET: ${{ secrets.ADMIN_SECRET }}
+      CLOUDFLARE_ACCOUNT_ID: 354c30c9bb5db4b7cfb7867ad2cd9507
+      D1_DATABASE_ID: fb8c88e6-41af-4f6f-b372-9fdfa5b72845
       ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
       WORLD_CUP_DATA_DIR: ${{ github.workspace }}/.local
       SITE_SNAPSHOT_URL: http://127.0.0.1:3100
@@ -54,10 +52,6 @@ jobs:
         shell: bash
         run: |
           test -n "$CLOUDFLARE_API_TOKEN"
-          test -n "$CLOUDFLARE_ACCOUNT_ID"
-          test -n "$D1_DATABASE_ID"
-          test -n "$CRON_SECRET"
-          test -n "$ADMIN_SECRET"
       - run: npm ci
       - name: Apply additive D1 migrations
         if: github.event_name != 'schedule'
