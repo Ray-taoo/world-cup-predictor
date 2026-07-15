@@ -1,0 +1,40 @@
+CREATE TABLE IF NOT EXISTS matches (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  external_provider TEXT NOT NULL,
+  external_event_id TEXT NOT NULL,
+  local_match_id TEXT NOT NULL UNIQUE,
+  kickoff_time_utc TEXT,
+  stage TEXT NOT NULL DEFAULT 'UNKNOWN',
+  external_stage_raw TEXT,
+  status TEXT NOT NULL DEFAULT 'unknown',
+  home_team_id TEXT,
+  away_team_id TEXT,
+  home_team_name TEXT NOT NULL DEFAULT 'TBD',
+  away_team_name TEXT NOT NULL DEFAULT 'TBD',
+  home_score INTEGER,
+  away_score INTEGER,
+  home_shootout_score INTEGER,
+  away_shootout_score INTEGER,
+  winner_team_id TEXT,
+  winner_team_name TEXT,
+  venue TEXT,
+  result_finalized_at TEXT,
+  raw_event_json TEXT NOT NULL,
+  updated_at TEXT NOT NULL,
+  UNIQUE (external_provider, external_event_id)
+);
+
+CREATE TABLE IF NOT EXISTS sync_runs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  sync_type TEXT NOT NULL,
+  status TEXT NOT NULL,
+  started_at TEXT NOT NULL,
+  finished_at TEXT,
+  events_found INTEGER NOT NULL DEFAULT 0,
+  matches_upserted INTEGER NOT NULL DEFAULT 0,
+  completed_results INTEGER NOT NULL DEFAULT 0,
+  unknown_stage INTEGER NOT NULL DEFAULT 0,
+  tbd_matches INTEGER NOT NULL DEFAULT 0,
+  failed_dates INTEGER NOT NULL DEFAULT 0,
+  error TEXT
+);

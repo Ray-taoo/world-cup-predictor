@@ -1,9 +1,11 @@
 import { getTeam } from "@/lib/data";
 import { pct } from "@/lib/format";
 import { teamName } from "@/lib/i18n";
+import { topScorelines } from "@/lib/trade-plans";
+import type { ModelVariantPrediction } from "@/lib/model-variants";
 import type { MatchPrediction } from "@/lib/types";
 
-export function matchReason(prediction: MatchPrediction): string {
+export function matchReason(prediction: MatchPrediction, scoreModel?: ModelVariantPrediction): string {
   const { match, blended, model, market } = prediction;
   const home = getTeam(match.home);
   const away = getTeam(match.away);
@@ -42,11 +44,26 @@ export function matchReason(prediction: MatchPrediction): string {
       : Math.abs(eloDiff) >= 45
         ? `${teamName(stronger.name)}强度分略占优势`
         : "双方纸面差距不大";
-  const scoreNote = `模型预计进球 ${prediction.xgHome.toFixed(2)}:${prediction.xgAway.toFixed(2)}，最可能比分 ${prediction.likelyScore}`;
+  const scoreNote = scoreModel?.lambdaHome != null && scoreModel.lambdaAway != null
+    ? `Hybrid V2 预计进球 ${scoreModel.lambdaHome.toFixed(2)}:${scoreModel.lambdaAway.toFixed(2)}，前三比分 ${scoreModel.topScorelines.slice(0, 3).map((row) => `${row.score} ${pct(row.probability)}`).join(" / ")}`
+    : `模型预计进球 ${prediction.xgHome.toFixed(2)}:${prediction.xgAway.toFixed(2)}，前三比分 ${scorelineSummary(prediction)}`;
   const modelNote = `自有模型概率为 ${pct(model.home)}/${pct(model.draw)}/${pct(model.away)}`;
   return `倾向${favorite.label}：${strengthNote}，融合后概率 ${pct(favorite.prob)}；${teamName(home.name)}近10场${homeForm}，${teamName(away.name)}近10场${awayForm}；${hostNote}；${dataNote}；${inputNote}；${scoreNote}；${modelNote}，${marketNote}。`;
 }
 
 function formText(form: { wins: number; draws: number; losses: number }): string {
   return `${form.wins}胜${form.draws}平${form.losses}负`;
+}
+
+function scorelineSummary(prediction: MatchPrediction): string {
+  return topScorelines(prediction.xgHome, prediction.xgAway, 3, prediction.match.stage === "group" ? favoriteSide(prediction) : undefined)
+    .map((row) => `${row.score} ${pct(row.probability)}`)
+    .join(" / ");
+}
+
+function favoriteSide(prediction: MatchPrediction): "home" | "draw" | "away" {
+  const { blended } = prediction;
+  if (blended.home >= blended.draw && blended.home >= blended.away) return "home";
+  if (blended.away >= blended.draw) return "away";
+  return "draw";
 }

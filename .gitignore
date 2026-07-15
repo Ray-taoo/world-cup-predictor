@@ -7,6 +7,12 @@ dist
 .env.local
 *.sqlite
 *.db
+*.pyc
+__pycache__/
 tsconfig.tsbuildinfo
 .vercel
 out/
+.runner/
+.snapshot/
+.worker-assets/
+.wrangler/

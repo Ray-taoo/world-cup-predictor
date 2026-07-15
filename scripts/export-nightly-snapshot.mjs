@@ -11,8 +11,11 @@ loadLocalEnv();
 const generated = JSON.parse(fs.readFileSync(DATA_PATH, "utf8"));
 const apiKey = process.env.ODDS_API_KEY;
 const now = new Date().toISOString();
-const targetDate = beijingDateKey(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
-const targetFixtures = generated.fixtures.filter((match) => beijingDateKey(match.sortDate) === targetDate);
+const targetDates = [
+  beijingDateKey(new Date().toISOString()),
+  beijingDateKey(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString())
+];
+const targetFixtures = generated.fixtures.filter((match) => targetDates.includes(beijingDateKey(match.sortDate)));
 const targetMatchIds = new Set(targetFixtures.map((match) => match.id));
 
 const snapshot = {
@@ -22,7 +25,7 @@ const snapshot = {
     lastAttemptAt: now,
     lastSuccessAt: now,
     beijingRunDate: beijingDateKey(now),
-    targetDate,
+    targetDate: targetDates.join(","),
     targetMatches: targetFixtures.length,
     oddsFetched: 0,
     oddsImported: 0,
@@ -43,8 +46,8 @@ if (apiKey) {
   snapshot.state.oddsMatchIds = oddsMatchIds;
   snapshot.state.missingOddsMatchIds = targetFixtures.filter((match) => !oddsMatchIds.includes(match.id)).map((match) => match.id);
   snapshot.state.note = scopedQuotes.length
-    ? `云端 21:00 自动刷新成功，已写入明日 ${oddsMatchIds.length} 场比赛赔率；首发/伤停仍需赛前人工复核。`
-    : "云端 21:00 自动刷新已运行，但 The Odds API 当前没有返回明日可匹配赔率；首发/伤停仍需赛前人工复核。";
+    ? `云端 21:00 自动刷新成功，已写入近期 ${oddsMatchIds.length} 场比赛赔率；首发/伤停仍需赛前人工复核。`
+    : "云端 21:00 自动刷新已运行，但 The Odds API 当前没有返回近期可匹配赔率；首发/伤停仍需赛前人工复核。";
   snapshot.odds = scopedQuotes;
 }
 

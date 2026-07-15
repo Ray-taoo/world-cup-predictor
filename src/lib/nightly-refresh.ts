@@ -64,8 +64,8 @@ export async function runNightlyRefresh(apiKey = process.env.ODDS_API_KEY): Prom
       importedQuotes = await insertOdds(scopedQuotes);
       oddsMatchIds = [...new Set(scopedQuotes.map((quote) => quote.matchId))];
       oddsNote = scopedQuotes.length
-        ? `已刷新明日 ${oddsMatchIds.length} 场比赛的免费赔率`
-        : "The Odds API 当前没有返回明日可匹配赔率";
+        ? `已刷新近期 ${oddsMatchIds.length} 场比赛的免费赔率`
+        : "The Odds API 当前没有返回近期可匹配赔率";
     }
 
     const missingOddsMatchIds = targetFixtures
@@ -104,6 +104,21 @@ export async function runNightlyRefresh(apiKey = process.env.ODDS_API_KEY): Prom
     writeNightlyRefreshState(state);
     return state;
   }
+}
+
+export function expectedNightlyTargetDate(now = new Date()): string {
+  return beijingDateKey(new Date(now.getTime() + 24 * 60 * 60 * 1000).toISOString());
+}
+
+export function isNightlyRefreshStale(state: NightlyRefreshState, now = new Date()): boolean {
+  if (state.status !== "ok") return true;
+  if (state.targetDate !== expectedNightlyTargetDate(now)) return true;
+  if (!state.lastSuccessAt) return true;
+
+  const lastSuccess = new Date(state.lastSuccessAt).getTime();
+  if (!Number.isFinite(lastSuccess)) return true;
+
+  return now.getTime() - lastSuccess > 12 * 60 * 60 * 1000;
 }
 
 function writeNightlyRefreshState(state: NightlyRefreshState): void {

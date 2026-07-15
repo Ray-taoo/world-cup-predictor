@@ -1,11 +1,12 @@
 import { data, getTeam } from "@/lib/data";
 import { predictionForMatch } from "@/lib/model";
-import type { GroupId, OddsQuote, OverrideResult, StandingRow, TeamInput } from "@/lib/types";
+import type { GroupId, ModelIterationState, OddsQuote, OverrideResult, StandingRow, TeamInput } from "@/lib/types";
 
 export function groupStandings(
   overrides: OverrideResult[],
   odds: OddsQuote[],
-  teamInputs: TeamInput[] = []
+  teamInputs: TeamInput[] = [],
+  iteration?: ModelIterationState | null
 ): Record<GroupId, StandingRow[]> {
   const overrideMap = new Map(overrides.map((row) => [row.matchId, row]));
   const oddsMap = oddsQuotesByMatchMap(odds);
@@ -24,7 +25,7 @@ export function groupStandings(
     if (override) {
       applyActual(home, away, override.homeScore, override.awayScore);
     } else {
-      const prediction = predictionForMatch(match, oddsMap.get(match.id) ?? null, teamInputs);
+      const prediction = predictionForMatch(match, oddsMap.get(match.id) ?? null, teamInputs, { iteration, overrides });
       applyExpected(home, away, prediction.blended.home, prediction.blended.draw, prediction.blended.away, prediction.xgHome, prediction.xgAway);
     }
   }

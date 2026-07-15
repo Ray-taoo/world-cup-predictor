@@ -1,10 +1,12 @@
 import { MatchOverrideForm } from "@/components/MatchOverrideForm";
 import { ProbabilityBar } from "@/components/ProbabilityBar";
+import { ScorelineChips } from "@/components/ScorelineChips";
 import { buyGateCandidates, type BuyGateCandidate } from "@/lib/buy-gates";
 import { data } from "@/lib/data";
 import { readOdds, readOverrides, readTeamInputs } from "@/lib/db";
 import { beijingMatchTime, number, pct } from "@/lib/format";
-import { groupName, teamName, venueName } from "@/lib/i18n";
+import { fixtureStageName, groupName, teamName, venueName } from "@/lib/i18n";
+import { buildModelIterationState } from "@/lib/model-iteration";
 import { predictionForMatch } from "@/lib/model";
 import { matchReason } from "@/lib/reasons";
 import { topBuyingCandidates, type BuyingCandidate } from "@/lib/selection";
@@ -18,10 +20,11 @@ export default async function MatchesPage() {
   const [overrides, odds, teamInputs] = await Promise.all([readOverrides(), readOdds(), readTeamInputs()]);
   const overrideMap = new Map(overrides.map((row) => [row.matchId, row]));
   const oddsMap = oddsQuotesByMatchMap(odds);
+  const modelIteration = buildModelIterationState(overrides, odds, teamInputs);
   const predictions = data.fixtures
-    .map((match) => predictionForMatch(match, oddsMap.get(match.id) ?? null, teamInputs))
+    .map((match) => predictionForMatch(match, oddsMap.get(match.id) ?? null, teamInputs, { iteration: modelIteration }))
     .sort(comparePredictionTime);
-  const upcomingPredictions = predictions.filter((prediction) => !overrideMap.has(prediction.match.id));
+  const upcomingPredictions = predictions.filter((prediction) => !overrideMap.has(prediction.match.id) && hasNotStarted(prediction));
   const strategyStats = [
     strategyStatFromBacktests(data.backtests, "55%+", "highConfidence55Matches", "highConfidence55Accuracy"),
     strategyStatFromBacktests(data.backtests, "60%+", "highConfidence60Matches", "highConfidence60Accuracy")
@@ -54,7 +57,8 @@ export default async function MatchesPage() {
                     {teamName(prediction.match.home)} 对 {teamName(prediction.match.away)}
                   </strong>
                   <p className="muted">
-                    {groupName(prediction.match.group)} · {beijingMatchTime(prediction.match.sortDate)} · {favoriteLabel(prediction)} · 预计比分 {prediction.likelyScore} · {prediction.odds ? `已用 ${prediction.odds.provider}` : "未接入盘口"}
+                    {fixtureStageName(prediction.match.stage, prediction.match.group)} · {beijingMatchTime(prediction.match.sortDate)} · {favoriteLabel(prediction)} · {prediction.odds ? `已用 ${prediction.odds.provider}` : "未接入盘口"}
+                    <ScorelineChips homeXg={prediction.xgHome} awayXg={prediction.xgAway} preferred={scorelinePreferredSide(prediction)} />
                   </p>
                 </div>
                 <div className="compact-right">
@@ -98,13 +102,14 @@ export default async function MatchesPage() {
                             <span>{teamName(prediction.match.home)}</span>
                             <span className="muted">对</span>
                             <span>{teamName(prediction.match.away)}</span>
-                            <span className="pill">{groupName(prediction.match.group)}</span>
+                            <span className="pill">{fixtureStageName(prediction.match.stage, prediction.match.group)}</span>
                             <span className={prediction.recommendationLevel.includes("强推荐") ? "pill ok" : "pill"}>{prediction.recommendationLevel}</span>
                             {override ? <span className="pill ok">{resultSourceLabel(override)} {override.homeScore}:{override.awayScore}</span> : null}
                           </div>
                           <div className="match-meta">
-                            {beijingMatchTime(prediction.match.sortDate)} · {venueName(prediction.match.venue)} · 预计比分 {prediction.likelyScore} · 预计进球{" "}
+                            {beijingMatchTime(prediction.match.sortDate)} · {venueName(prediction.match.venue)} · 预计进球{" "}
                             {number(prediction.xgHome)}:{number(prediction.xgAway)}
+                            <ScorelineChips homeXg={prediction.xgHome} awayXg={prediction.xgAway} preferred={scorelinePreferredSide(prediction)} />
                           </div>
                         </div>
                         <MatchOverrideForm matchId={prediction.match.id} currentHome={override?.homeScore} currentAway={override?.awayScore} />
@@ -151,7 +156,7 @@ function BuyingCandidateCard({ candidate }: { candidate: BuyGateCandidate }) {
             {teamName(prediction.match.home)} 对 {teamName(prediction.match.away)}
           </strong>
           <p className="muted">
-            {groupName(prediction.match.group)} · {beijingMatchTime(prediction.match.sortDate)} · {candidate.label} · {prediction.odds ? prediction.odds.provider : "未接入盘口"}
+            {fixtureStageName(prediction.match.stage, prediction.match.group)} · {beijingMatchTime(prediction.match.sortDate)} · {candidate.label} · {prediction.odds ? prediction.odds.provider : "未接入盘口"}
           </p>
         </div>
         <span className={candidate.grade === "重点观察" ? "pill ok" : candidate.grade === "暂不买入" ? "pill warning" : "pill"}>
@@ -256,7 +261,7 @@ function oddsAndEdgeText(prediction: MatchPrediction): string {
   const marketProbability = prediction.market[side];
   const edge = modelProbability - marketProbability;
   const price = side === "home" ? prediction.odds.homePrice : side === "away" ? prediction.odds.awayPrice : prediction.odds.drawPrice;
-  const marketKind = prediction.odds.marketKind === "prediction_market" ? "预测市场" : "博彩公司盘口";
+  const marketKind = prediction.odds.marketKind === "prediction_market" ? "预测市场" : prediction.odds.marketKind === "smart_wallet" ? "聪明钱包" : "博彩公司盘口";
   const edgeText = edge >= 0.03 ? "模型给得更高，有价格优势" : edge <= -0.03 ? "市场价格偏贵，先谨慎" : "模型和市场接近";
   return `${marketKind}代表来源 ${prediction.odds.provider}，赔率 ${number(price, 2)}；内部使用 ${prediction.marketMeta.sourceLabel}，市场权重 ${pct(prediction.marketMeta.marketWeight)}，共识状态 ${prediction.marketMeta.consensusStatus}；市场概率 ${pct(marketProbability)}，模型概率 ${pct(modelProbability)}，优势 ${pct(edge)}，${edgeText}。`;
 }
@@ -266,6 +271,14 @@ function favoriteSide(prediction: MatchPrediction): "home" | "draw" | "away" {
   if (blended.home >= blended.draw && blended.home >= blended.away) return "home";
   if (blended.away >= blended.draw) return "away";
   return "draw";
+}
+
+function scorelinePreferredSide(prediction: MatchPrediction): "home" | "draw" | "away" | undefined {
+  return prediction.match.stage === "group" ? favoriteSide(prediction) : undefined;
+}
+
+function hasNotStarted(prediction: MatchPrediction): boolean {
+  return new Date(prediction.match.sortDate).getTime() > Date.now();
 }
 
 function teamFreshnessLabel(value: BuyingCandidate["teamDataFreshness"]): string {

@@ -41,7 +41,7 @@ export interface Group {
 export interface Fixture {
   id: string;
   matchNumber: number;
-  stage: "group";
+  stage: "group" | "round_of_32" | "round_of_16" | "quarter_final" | "semi_final" | "third_place" | "final";
   group: GroupId;
   dateLabel: string;
   sortDate: string;
@@ -93,22 +93,76 @@ export interface GeneratedData {
   };
 }
 
+export interface ModelIterationState {
+  updatedAt: string;
+  sampleSize: number;
+  accuracy: number;
+  brier: number;
+  logLoss: number;
+  drawMisses: number;
+  overconfidentWrong: number;
+  upsetWrong: number;
+  modelFavoriteAccuracy: number | null;
+  marketFavoriteAccuracy: number | null;
+  adjustments: {
+    modelTemperature: number;
+    drawBoost: number;
+    favoriteShrink: number;
+    marketWeightShift: number;
+  };
+  notes: string[];
+}
+
+export interface ModelReviewRow {
+  matchId: string;
+  sortDate: string;
+  home: string;
+  away: string;
+  actual: OutcomeKey;
+  predicted: OutcomeKey;
+  modelFavorite: OutcomeKey;
+  marketFavorite: OutcomeKey | null;
+  correct: boolean;
+  actualScore: string;
+  likelyScore: string;
+  topScorelines: Array<{ score: string; probability: number }>;
+  predictedProbability: number;
+  actualProbability: number;
+  brier: number;
+  logLoss: number;
+  providerCount: number;
+  recommendationLevel: MatchPrediction["recommendationLevel"];
+  reflectionType: "方向正确" | "平局低估" | "高信心错判" | "爆冷错判" | "普通错判";
+  reflectionDetail: string;
+}
+
 export interface OverrideResult {
   matchId: string;
   homeScore: number;
   awayScore: number;
+  normalTimeHomeScore?: number;
+  normalTimeAwayScore?: number;
   note: string | null;
   updatedAt: string;
 }
 
 export interface OddsQuote {
   matchId: string;
+  externalEventId?: string | null;
   provider: string;
   homePrice: number;
   drawPrice: number;
   awayPrice: number;
+  totalLine?: number | null;
+  overPrice?: number | null;
+  underPrice?: number | null;
+  handicapLine?: number | null;
+  homeHandicapPrice?: number | null;
+  awayHandicapPrice?: number | null;
+  bttsYesPrice?: number | null;
+  bttsNoPrice?: number | null;
   quoteType: "opening" | "current" | "closing";
-  marketKind: "sportsbook" | "prediction_market";
+  marketKind: "sportsbook" | "prediction_market" | "smart_wallet";
   fetchedAt: string;
   sourceUrl: string;
 }
@@ -126,6 +180,45 @@ export interface TeamInput {
   sourceUrl: string;
 }
 
+export interface MatchContextTeamInput {
+  teamName: string;
+  injuries: number;
+  suspensions: number;
+  keyAbsences: number;
+  confirmedLineup: boolean;
+  projectedXIValueEurM: number | null;
+  unavailable: Array<{ name: string; reason: string }>;
+}
+
+export interface MatchContextInput {
+  matchId: string;
+  squad?: {
+    externalProvider: string;
+    externalEventId: string;
+    fetchedAt: string;
+    sourceUrl: string;
+    lineupType: string | null;
+    source: string | null;
+    home: MatchContextTeamInput;
+    away: MatchContextTeamInput;
+  };
+  weather?: {
+    source: string;
+    sourceUrl: string;
+    fetchedAt: string;
+    latitude: number;
+    longitude: number;
+    resolvedLocation: string;
+    forecastTimeUtc: string;
+    temperatureC: number;
+    precipitationMm: number;
+    windSpeedKmh: number;
+    weatherCode: number;
+    extremeReasons: string[];
+    lambdaMultiplier: number;
+  };
+}
+
 export interface MatchPrediction {
   match: Fixture;
   model: ProbabilitySet;
@@ -136,6 +229,14 @@ export interface MatchPrediction {
   likelyScore: string;
   odds: OddsQuote | null;
   marketMeta: MarketMeta;
+  modelIteration: {
+    applied: boolean;
+    sampleSize: number;
+    modelTemperature: number;
+    drawBoost: number;
+    favoriteShrink: number;
+    marketWeightShift: number;
+  };
   confidenceLabel: string;
   recommendationLevel: "盘口支持强推荐" | "模型强盘口弱" | "谨慎" | "观望";
   confidenceScore: number;

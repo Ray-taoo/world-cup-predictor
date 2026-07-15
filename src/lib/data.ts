@@ -1,7 +1,28 @@
 import generated from "@/data/generated-data.json";
-import type { GeneratedData, Team } from "@/lib/types";
+import liveFixtures from "@/data/live-fixtures.json";
+import type { Fixture, GeneratedData, Team } from "@/lib/types";
 
-export const data = generated as GeneratedData;
+const base = generated as GeneratedData;
+const live = liveFixtures as { updatedAt?: string; source?: string; fixtures?: Fixture[] };
+const fixtureMap = new Map<string, Fixture>(base.fixtures.map((fixture) => [fixture.id, fixture]));
+for (const fixture of live.fixtures ?? []) fixtureMap.set(fixture.id, fixture);
+
+export const data: GeneratedData = {
+  ...base,
+  generatedAt: latestIso(base.generatedAt, live.updatedAt),
+  fixtures: [...fixtureMap.values()].sort((a, b) => a.matchNumber - b.matchNumber),
+  sources: live.source
+    ? [
+        ...base.sources,
+        {
+          name: "World Cup live schedule sync",
+          url: "https://api.sofascore.com/api/v1/unique-tournament/16/season/58210/events",
+          fetchedAt: live.updatedAt ?? base.generatedAt,
+          usage: live.source
+        }
+      ]
+    : base.sources
+};
 
 export const teamByName = new Map<string, Team>(data.teams.map((team) => [team.name, team]));
 
@@ -25,4 +46,9 @@ export function getTeam(name: string): Team {
 
 export function orderedTeams(): Team[] {
   return [...data.teams].sort((a, b) => b.elo - a.elo);
+}
+
+function latestIso(left: string, right?: string): string {
+  if (!right) return left;
+  return new Date(right).getTime() > new Date(left).getTime() ? right : left;
 }

@@ -30,10 +30,13 @@ export async function POST(request: Request) {
 }
 
 function filterTomorrowQuotes(quotes: OddsQuote[]): OddsQuote[] {
-  const targetDate = beijingDateKey(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString());
+  const targetDates = new Set([
+    beijingDateKey(new Date().toISOString()),
+    beijingDateKey(new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString())
+  ]);
   const targetMatchIds = new Set(
     data.fixtures
-      .filter((match) => beijingDateKey(match.sortDate) === targetDate)
+      .filter((match) => targetDates.has(beijingDateKey(match.sortDate)))
       .map((match) => match.id)
   );
   return quotes.filter((quote) => targetMatchIds.has(quote.matchId));

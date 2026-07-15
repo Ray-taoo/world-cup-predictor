@@ -1,0 +1,28 @@
+{
+  "name": "worldcup-sync-local",
+  "main": "src/entry.py",
+  "compatibility_date": "2026-07-04",
+  "compatibility_flags": [
+    "python_workers"
+  ],
+  "vars": {
+    "APP_ENV": "local",
+    "ALLOW_PRODUCTION_WRITES": "false",
+    "SYNC_SOURCE": "sofascore",
+    "SYNC_MANUAL_TRIGGER_ENABLED": "true"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "worldcup-sync-local",
+      "database_id": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "triggers": {
+    "crons": [
+      "*/10 * * * *",
+      "0 19 * * *",
+      "*/30 * * * *"
+    ]
+  }
+}

@@ -80,8 +80,72 @@ const venueZh: Record<string, string> = {
 };
 
 export function teamName(name: string | undefined): string {
-  if (!name) return "待定";
+  if (!name || name === "TBD") return "待定";
+  if (/^(Winner|Loser) Match \d+$/.test(name)) {
+    return name.replace("Winner Match", "比赛胜者").replace("Loser Match", "比赛负者");
+  }
   return teamZh[name] ?? name;
+}
+
+export function teamCode(name: string | undefined): string {
+  if (!name || name === "TBD") return "TBD";
+  const matchRef = name.match(/^(Winner|Loser) Match \d+$/);
+  if (matchRef) return matchRef[1] === "Winner" ? "WIN" : "LOS";
+
+  const codes: Record<string, string> = {
+    Algeria: "DZ",
+    Argentina: "AR",
+    Australia: "AU",
+    Austria: "AT",
+    Belgium: "BE",
+    "Bosnia & Herzegovina": "BA",
+    Brazil: "BR",
+    Canada: "CA",
+    "Cape Verde": "CV",
+    Colombia: "CO",
+    Croatia: "HR",
+    "Cura莽ao": "CW",
+    "Curaçao": "CW",
+    "Czech Republic": "CZ",
+    "DR Congo": "CD",
+    Ecuador: "EC",
+    Egypt: "EG",
+    England: "EN",
+    France: "FR",
+    Germany: "DE",
+    Ghana: "GH",
+    Haiti: "HT",
+    Iran: "IR",
+    Iraq: "IQ",
+    Italy: "IT",
+    "Ivory Coast": "CI",
+    Japan: "JP",
+    Jordan: "JO",
+    Mexico: "MX",
+    Morocco: "MA",
+    Netherlands: "NL",
+    "New Zealand": "NZ",
+    Norway: "NO",
+    Panama: "PA",
+    Paraguay: "PY",
+    Portugal: "PT",
+    Qatar: "QA",
+    "Saudi Arabia": "SA",
+    Scotland: "SCO",
+    Senegal: "SN",
+    "South Africa": "ZA",
+    "South Korea": "KR",
+    Spain: "ES",
+    Sweden: "SE",
+    Switzerland: "CH",
+    Tunisia: "TN",
+    Turkey: "TR",
+    Uruguay: "UY",
+    USA: "US",
+    Uzbekistan: "UZ"
+  };
+
+  return codes[name] ?? name.slice(0, 3).toUpperCase();
 }
 
 export function canonicalTeamNameFromInput(name: string): string | null {
@@ -126,4 +190,17 @@ export function bracketLabel(label: string): string {
     .replaceAll("Best 3rd", "最佳第3名")
     .replaceAll("Winner", "胜者")
     .replaceAll("Group", "小组");
+}
+
+export function fixtureStageName(stage: string, group: string): string {
+  const map: Record<string, string> = {
+    group: `${group}组`,
+    round_of_32: "1/16 决赛",
+    round_of_16: "1/8 决赛",
+    quarter_final: "1/4 决赛",
+    semi_final: "半决赛",
+    third_place: "三四名决赛",
+    final: "决赛"
+  };
+  return map[stage] ?? stage;
 }

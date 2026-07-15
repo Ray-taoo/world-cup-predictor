@@ -5,7 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "next dev",
+    "start:local": "node scripts/start-local.mjs",
     "build": "next build",
+    "build:cloudflare": "npm run build && node scripts/prepare-worker-assets.mjs",
+    "preview": "npm run build:cloudflare && wrangler dev --port 8787",
+    "deploy:cloudflare": "npm run build:cloudflare && wrangler deploy",
+    "snapshot:restore": "node scripts/run-python.mjs scripts/restore_d1_export.py",
+    "snapshot:capture": "node scripts/capture-site-snapshots.mjs",
+    "snapshot:publish": "node scripts/publish-site-snapshots.mjs",
+    "cf-typegen": "wrangler types --env-interface CloudflareEnv",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
@@ -15,7 +23,26 @@
     "refresh:tomorrow": "node scripts/refresh-tomorrow.mjs",
     "refresh:local-inputs": "node scripts/refresh-local-inputs.mjs",
     "export:nightly-snapshot": "node scripts/export-nightly-snapshot.mjs",
-    "predeploy:check": "node scripts/predeploy-check.mjs"
+    "export:trade-report": "node scripts/export-trade-report.mjs",
+    "audit:model": "node scripts/export-model-diagnostics.mjs",
+    "snapshots:capture": "node scripts/capture-prediction-snapshots.mjs",
+    "snapshots:stats": "node scripts/snapshot-stats.mjs",
+    "check:prediction-snapshots": "node scripts/check-prediction-snapshots.mjs",
+    "check:snapshot-read-path": "node scripts/check-snapshot-read-path.mjs",
+    "check:model-variants": "node scripts/check-model-variants.mjs",
+    "check:tomorrow-model-eval": "node scripts/check-tomorrow-model-eval.mjs",
+    "check:prediction-board": "npm run export:trade-report && npm run check:scorelines && npm run check:current-predictions",
+    "check:site-health": "node scripts/check-site-health.mjs",
+    "check:site": "npm run check:prediction-board && npm run check:site-health",
+    "check:result-sync": "node scripts/check-result-sync.mjs",
+    "check:scorelines": "node scripts/check-scoreline-direction.mjs",
+    "check:current-predictions": "node scripts/check-current-predictions.mjs",
+    "predeploy:check": "node scripts/predeploy-check.mjs",
+    "predeploy:cloudflare-check": "py scripts/predeploy_check.py",
+    "sync:worldcup:full": "node scripts/run-python.mjs workers/worldcup-sync/src/entry.py full",
+    "sync:worldcup:recent": "node scripts/run-python.mjs workers/worldcup-sync/src/entry.py recent",
+    "sync:worldcup:retry-analysis": "node scripts/run-python.mjs workers/worldcup-sync/src/entry.py retry-analysis",
+    "check:worldcup-sync": "node scripts/run-python.mjs workers/worldcup-sync/tests/test_worldcup_sync_service.py && node scripts/run-python.mjs workers/worldcup-sync/tests/test_entry.py"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
@@ -25,11 +52,13 @@
     "sql.js": "^1.12.0"
   },
   "devDependencies": {
+    "@opennextjs/cloudflare": "^1.20.1",
     "@types/node": "^22.10.1",
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.2",
     "eslint": "^9.16.0",
     "eslint-config-next": "^15.0.4",
-    "typescript": "^5.7.2"
+    "typescript": "^5.7.2",
+    "wrangler": "^4.110.0"
   }
 }
