@@ -652,18 +652,31 @@ async function recordResultSync(match, source, status, score, error) {
     db.exec(`SELECT result_retry_count FROM result_sync_status WHERE match_id = ?`, [match.id])[0]?.values?.[0]?.[0] ?? 0
   );
   const retryCount = score ? 0 : existingRetryCount + 1;
+  const externalMatchId = source.externalMatchId == null ? null : String(source.externalMatchId);
+  const normalizedStatus = normalizeResultStatus(status);
+  const dedupeKey = JSON.stringify([
+    match.id,
+    externalMatchId,
+    source.sourceName ?? null,
+    source.url ?? null,
+    normalizedStatus,
+    score?.homeScore ?? null,
+    score?.awayScore ?? null,
+    error ?? null
+  ]);
   db.run(
-    `INSERT INTO result_sync_events (
-       match_id, external_match_id, source_name, source_url, match_status,
+    `INSERT OR IGNORE INTO result_sync_events (
+       dedupe_key, match_id, external_match_id, source_name, source_url, match_status,
        home_score, away_score, checked_at, error
-     )
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
+      dedupeKey,
       match.id,
-      source.externalMatchId == null ? null : String(source.externalMatchId),
+      externalMatchId,
       source.sourceName ?? null,
       source.url ?? null,
-      normalizeResultStatus(status),
+      normalizedStatus,
       score?.homeScore ?? null,
       score?.awayScore ?? null,
       now,
@@ -770,6 +783,7 @@ function ensureSchema(db) {
   db.run(`
     CREATE TABLE IF NOT EXISTS result_sync_events (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
+      dedupe_key TEXT NOT NULL,
       match_id TEXT NOT NULL,
       external_match_id TEXT,
       source_name TEXT,
@@ -781,6 +795,8 @@ function ensureSchema(db) {
       error TEXT
     );
   `);
+  ensureColumn(db, "result_sync_events", "dedupe_key", "TEXT");
+  db.run(`CREATE UNIQUE INDEX IF NOT EXISTS result_sync_events_dedupe_key_idx ON result_sync_events(dedupe_key)`);
 }
 
 function nextRetryAt(retryCount) {
