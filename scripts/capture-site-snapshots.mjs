@@ -37,8 +37,13 @@ for (const [pageKey, route] of pages) {
 }
 
 const combined = captured.map((page) => fs.readFileSync(path.join(output, "pages", `${page.pageKey}.json`), "utf8")).join("\n");
-for (const marker of ["60.7%", "M073", "M100"]) {
+for (const marker of ["M073", "M100"]) {
   if (!combined.includes(marker)) throw new Error(`snapshot acceptance marker missing: ${marker}`);
+}
+const bracketHtml = JSON.parse(fs.readFileSync(path.join(output, "pages", "bracket.json"), "utf8")).html;
+const knockoutScoreStat = bracketHtml.match(/比分[\s\S]{0,40}?(\d+)\/(\d+)=\d+(?:\.\d+)?%/);
+if (!knockoutScoreStat || Number(knockoutScoreStat[2]) < 28) {
+  throw new Error("snapshot knockout score statistic missing or incomplete");
 }
 if (combined.includes("coffee-warbler.workers.dev")) throw new Error("old workers.dev subdomain found in snapshot");
 if (/\.local[\\/]|worldcup\.sqlite/.test(combined)) {
