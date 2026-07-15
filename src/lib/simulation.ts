@@ -1,7 +1,7 @@
 import { data, getTeam } from "@/lib/data";
 import { modelProbabilities, predictionForMatch } from "@/lib/model";
 import { bestThirds, groupStandings, oddsQuotesByMatchMap, rankRows } from "@/lib/standings";
-import type { BracketMatch, GroupId, OddsQuote, OverrideResult, SimulationResult, StandingRow, TeamInput } from "@/lib/types";
+import type { BracketMatch, GroupId, ModelIterationState, OddsQuote, OverrideResult, SimulationResult, StandingRow, TeamInput } from "@/lib/types";
 
 interface SimRow {
   team: string;
@@ -22,6 +22,7 @@ interface KnockoutPair {
 }
 
 const groups = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"] as GroupId[];
+let simulationCache: { key: string; value: SimulationResult } | null = null;
 
 const r32Template = [
   { id: 73, home: "A2", away: "B2", label: ["Runner-up Group A", "Runner-up Group B"] },
@@ -43,14 +44,14 @@ const r32Template = [
 ] as const;
 
 const r16Template = [
-  [89, 74, 77],
-  [90, 73, 75],
-  [91, 76, 78],
+  [89, 75, 78],
+  [90, 73, 76],
+  [91, 74, 77],
   [92, 79, 80],
-  [93, 83, 84],
-  [94, 81, 82],
-  [95, 86, 88],
-  [96, 85, 87]
+  [93, 84, 83],
+  [94, 82, 81],
+  [95, 87, 86],
+  [96, 85, 88]
 ] as const;
 
 const qfTemplate = [
@@ -69,12 +70,21 @@ export function runSimulation(
   overrides: OverrideResult[],
   odds: OddsQuote[],
   teamInputs: TeamInput[] = [],
-  simulations = 10000
+  simulations = 10000,
+  iteration?: ModelIterationState | null
 ): SimulationResult {
+  const cacheKey = JSON.stringify({
+    simulations,
+    overrides: overrides.map((row) => [row.matchId, row.homeScore, row.awayScore, row.updatedAt]),
+    odds: [odds.length, odds[0]?.fetchedAt ?? null],
+    teams: teamInputs.map((row) => [row.teamName, row.updatedAt]),
+    iteration: iteration ? [iteration.sampleSize, iteration.adjustments] : null
+  });
+  if (simulationCache?.key === cacheKey) return simulationCache.value;
   const oddsMap = oddsQuotesByMatchMap(odds);
   const overrideMap = new Map(overrides.map((row) => [row.matchId, row]));
   const fixturePredictions = new Map(
-    data.fixtures.map((match) => [match.id, predictionForMatch(match, oddsMap.get(match.id) ?? null, teamInputs)])
+    data.fixtures.map((match) => [match.id, predictionForMatch(match, oddsMap.get(match.id) ?? null, teamInputs, { iteration, overrides })])
   );
   const advanceCache = new Map<string, number>();
   const counts = Object.fromEntries(
@@ -103,19 +113,19 @@ export function runSimulation(
     }
     for (const team of qualified) counts[team].roundOf32 += 1;
 
-    const r32Winners = playRound(r32, random, advanceCache, teamInputs);
+    const r32Winners = playRound(r32, random, advanceCache, teamInputs, iteration);
     for (const team of r32Winners.values()) counts[team].roundOf16 += 1;
     const r16 = bracketFromWinnerTemplate(r16Template, r32Winners);
-    const r16Winners = playRound(r16, random, advanceCache, teamInputs);
+    const r16Winners = playRound(r16, random, advanceCache, teamInputs, iteration);
     for (const team of r16Winners.values()) counts[team].quarterFinal += 1;
     const qf = bracketFromWinnerTemplate(qfTemplate, r16Winners);
-    const qfWinners = playRound(qf, random, advanceCache, teamInputs);
+    const qfWinners = playRound(qf, random, advanceCache, teamInputs, iteration);
     for (const team of qfWinners.values()) counts[team].semiFinal += 1;
     const sf = bracketFromWinnerTemplate(sfTemplate, qfWinners);
-    const sfWinners = playRound(sf, random, advanceCache, teamInputs);
+    const sfWinners = playRound(sf, random, advanceCache, teamInputs, iteration);
     for (const team of sfWinners.values()) counts[team].final += 1;
     const finalPair = bracketFromWinnerTemplate([[104, 101, 102]], sfWinners);
-    const champion = playRound(finalPair, random, advanceCache, teamInputs).get(104);
+    const champion = playRound(finalPair, random, advanceCache, teamInputs, iteration).get(104);
     if (champion) counts[champion].champion += 1;
   }
 
@@ -128,15 +138,17 @@ export function runSimulation(
     counts[team].champion /= simulations;
   }
 
-  return {
+  const value = {
     simulations,
     teams: counts,
-    projectedBracket: projectedBracket(overrides, odds, teamInputs)
+    projectedBracket: projectedBracket(overrides, odds, teamInputs, iteration)
   };
+  simulationCache = { key: cacheKey, value };
+  return value;
 }
 
-export function projectedBracket(overrides: OverrideResult[], odds: OddsQuote[], teamInputs: TeamInput[] = []): BracketMatch[] {
-  const standings = groupStandings(overrides, odds, teamInputs);
+export function projectedBracket(overrides: OverrideResult[], odds: OddsQuote[], teamInputs: TeamInput[] = [], iteration?: ModelIterationState | null): BracketMatch[] {
+  const standings = groupStandings(overrides, odds, teamInputs, iteration);
   const thirdRows = bestThirds(standings);
   const r32 = buildR32(
     Object.fromEntries(groups.map((group) => [group, standings[group]])) as Record<GroupId, StandingRow[]>,
@@ -247,11 +259,12 @@ function playRound(
   matches: KnockoutPair[],
   random: () => number,
   advanceCache: Map<string, number>,
-  teamInputs: TeamInput[]
+  teamInputs: TeamInput[],
+  iteration?: ModelIterationState | null
 ): Map<number, string> {
   const winners = new Map<number, string>();
   for (const match of matches) {
-    winners.set(match.id, knockoutWinner(match.homeTeam, match.awayTeam, random, advanceCache, teamInputs));
+    winners.set(match.id, knockoutWinner(match.homeTeam, match.awayTeam, random, advanceCache, teamInputs, iteration));
   }
   return winners;
 }
@@ -261,14 +274,15 @@ function knockoutWinner(
   away: string,
   random: () => number,
   advanceCache: Map<string, number>,
-  teamInputs: TeamInput[]
+  teamInputs: TeamInput[],
+  iteration?: ModelIterationState | null
 ): string {
   if (!home) return away;
   if (!away) return home;
   const key = `${home}__${away}`;
   let homeAdvance = advanceCache.get(key);
   if (homeAdvance == null) {
-    const prediction = modelProbabilities(home, away, teamInputs);
+    const prediction = modelProbabilities(home, away, teamInputs, iteration);
     const homePenaltyShare = getTeam(home).elo / (getTeam(home).elo + getTeam(away).elo);
     homeAdvance = prediction.home + prediction.draw * homePenaltyShare;
     advanceCache.set(key, homeAdvance);

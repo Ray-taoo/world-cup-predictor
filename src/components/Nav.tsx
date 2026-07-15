@@ -1,11 +1,12 @@
 import Link from "next/link";
-import { BarChart3, CalendarDays, Database, GitBranch, Home, ListOrdered, Trophy } from "lucide-react";
+import { BarChart3, CalendarDays, Database, GitBranch, Home, ListOrdered, RefreshCcw, Trophy } from "lucide-react";
 
 const items = [
   { href: "/", label: "总览", icon: Home },
   { href: "/matches", label: "比赛", icon: CalendarDays },
-  { href: "/groups", label: "小组", icon: ListOrdered },
   { href: "/bracket", label: "淘汰赛", icon: GitBranch },
+  { href: "/groups", label: "小组赛", icon: ListOrdered },
+  { href: "/review", label: "复盘", icon: RefreshCcw },
   { href: "/backtest", label: "回测", icon: BarChart3 },
   { href: "/sources", label: "来源", icon: Database }
 ];

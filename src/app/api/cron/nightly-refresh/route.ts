@@ -5,6 +5,10 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 export async function GET(request: Request) {
+  if (process.env.APP_ENV === "production") {
+    return NextResponse.json({ ok: false, error: "local nightly refresh is disabled in Workers" }, { status: 409 });
+  }
+
   const secret = process.env.CRON_SECRET;
   if (secret) {
     const auth = request.headers.get("authorization");

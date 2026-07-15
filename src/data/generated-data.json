@@ -1788,6 +1788,182 @@
       "home": "Croatia",
       "away": "Ghana",
       "venue": "Philadelphia"
+    },
+    {
+      "id": "M073",
+      "matchNumber": 73,
+      "stage": "round_of_32",
+      "group": "A",
+      "dateLabel": "Sun June 28, 12:00 UTC-7",
+      "sortDate": "2026-06-28T19:00:00.000Z",
+      "home": "South Africa",
+      "away": "Canada",
+      "venue": "Los Angeles"
+    },
+    {
+      "id": "M074",
+      "matchNumber": 74,
+      "stage": "round_of_32",
+      "group": "C",
+      "dateLabel": "Mon June 29, 12:00 UTC-5",
+      "sortDate": "2026-06-29T17:00:00.000Z",
+      "home": "Brazil",
+      "away": "Japan",
+      "venue": "Houston"
+    },
+    {
+      "id": "M075",
+      "matchNumber": 75,
+      "stage": "round_of_32",
+      "group": "D",
+      "dateLabel": "Mon June 29, 16:30 UTC-4",
+      "sortDate": "2026-06-29T20:30:00.000Z",
+      "home": "Germany",
+      "away": "Paraguay",
+      "venue": "Boston"
+    },
+    {
+      "id": "M076",
+      "matchNumber": 76,
+      "stage": "round_of_32",
+      "group": "F",
+      "dateLabel": "Mon June 29, 19:00 UTC-6",
+      "sortDate": "2026-06-30T01:00:00.000Z",
+      "home": "Netherlands",
+      "away": "Morocco",
+      "venue": "Guadalajara"
+    },
+    {
+      "id": "M077",
+      "matchNumber": 77,
+      "stage": "round_of_32",
+      "group": "E",
+      "dateLabel": "Tue June 30, 12:00 UTC-5",
+      "sortDate": "2026-06-30T17:00:00.000Z",
+      "home": "Ivory Coast",
+      "away": "Norway",
+      "venue": "Dallas"
+    },
+    {
+      "id": "M078",
+      "matchNumber": 78,
+      "stage": "round_of_32",
+      "group": "I",
+      "dateLabel": "Tue June 30, 17:00 UTC-4",
+      "sortDate": "2026-06-30T21:00:00.000Z",
+      "home": "France",
+      "away": "Sweden",
+      "venue": "New Jersey"
+    },
+    {
+      "id": "M079",
+      "matchNumber": 79,
+      "stage": "round_of_32",
+      "group": "A",
+      "dateLabel": "Tue June 30, 19:00 UTC-6",
+      "sortDate": "2026-07-01T01:00:00.000Z",
+      "home": "Mexico",
+      "away": "Ecuador",
+      "venue": "Mexico City"
+    },
+    {
+      "id": "M080",
+      "matchNumber": 80,
+      "stage": "round_of_32",
+      "group": "L",
+      "dateLabel": "Wed July 1, 12:00 UTC-4",
+      "sortDate": "2026-07-01T16:00:00.000Z",
+      "home": "England",
+      "away": "DR Congo",
+      "venue": "Atlanta"
+    },
+    {
+      "id": "M081",
+      "matchNumber": 81,
+      "stage": "round_of_32",
+      "group": "G",
+      "dateLabel": "Wed July 1, 13:00 UTC-7",
+      "sortDate": "2026-07-01T20:00:00.000Z",
+      "home": "Belgium",
+      "away": "Senegal",
+      "venue": "Seattle"
+    },
+    {
+      "id": "M082",
+      "matchNumber": 82,
+      "stage": "round_of_32",
+      "group": "D",
+      "dateLabel": "Wed July 1, 17:00 UTC-7",
+      "sortDate": "2026-07-02T00:00:00.000Z",
+      "home": "USA",
+      "away": "Bosnia & Herzegovina",
+      "venue": "San Francisco Bay Area"
+    },
+    {
+      "id": "M083",
+      "matchNumber": 83,
+      "stage": "round_of_32",
+      "group": "H",
+      "dateLabel": "Thu July 2, 12:00 UTC-7",
+      "sortDate": "2026-07-02T19:00:00.000Z",
+      "home": "Spain",
+      "away": "Austria",
+      "venue": "Los Angeles"
+    },
+    {
+      "id": "M084",
+      "matchNumber": 84,
+      "stage": "round_of_32",
+      "group": "K",
+      "dateLabel": "Thu July 2, 19:00 UTC-4",
+      "sortDate": "2026-07-02T23:00:00.000Z",
+      "home": "Portugal",
+      "away": "Croatia",
+      "venue": "Toronto"
+    },
+    {
+      "id": "M085",
+      "matchNumber": 85,
+      "stage": "round_of_32",
+      "group": "B",
+      "dateLabel": "Thu July 2, 20:00 UTC-7",
+      "sortDate": "2026-07-03T03:00:00.000Z",
+      "home": "Switzerland",
+      "away": "Algeria",
+      "venue": "Vancouver"
+    },
+    {
+      "id": "M086",
+      "matchNumber": 86,
+      "stage": "round_of_32",
+      "group": "E",
+      "dateLabel": "Fri July 3, 13:00 UTC-5",
+      "sortDate": "2026-07-03T18:00:00.000Z",
+      "home": "Australia",
+      "away": "Egypt",
+      "venue": "Dallas"
+    },
+    {
+      "id": "M087",
+      "matchNumber": 87,
+      "stage": "round_of_32",
+      "group": "J",
+      "dateLabel": "Fri July 3, 18:00 UTC-4",
+      "sortDate": "2026-07-03T22:00:00.000Z",
+      "home": "Argentina",
+      "away": "Cape Verde",
+      "venue": "Miami"
+    },
+    {
+      "id": "M088",
+      "matchNumber": 88,
+      "stage": "round_of_32",
+      "group": "K",
+      "dateLabel": "Fri July 3, 20:30 UTC-5",
+      "sortDate": "2026-07-04T01:30:00.000Z",
+      "home": "Colombia",
+      "away": "Ghana",
+      "venue": "Kansas City"
     }
   ],
   "calibration": {

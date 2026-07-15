@@ -1,0 +1,182 @@
+{
+  "updatedAt": "2026-07-15T12:52:53.968900+00:00",
+  "source": "the_odds_api with cached knockout schedule",
+  "fixtures": [
+    {
+      "id": "M089",
+      "matchNumber": 89,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Sat July 4, 21:00 UTC",
+      "sortDate": "2026-07-04T21:00:00.000Z",
+      "home": "Paraguay",
+      "away": "France",
+      "venue": "Lincoln Financial Field, Philadelphia"
+    },
+    {
+      "id": "M090",
+      "matchNumber": 90,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Sat July 4, 17:00 UTC",
+      "sortDate": "2026-07-04T17:00:00.000Z",
+      "home": "Canada",
+      "away": "Morocco",
+      "venue": "NRG Stadium, Houston"
+    },
+    {
+      "id": "M091",
+      "matchNumber": 91,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Sun July 5, 20:00 UTC",
+      "sortDate": "2026-07-05T20:00:00.000Z",
+      "home": "Brazil",
+      "away": "Norway",
+      "venue": "MetLife Stadium, East Rutherford"
+    },
+    {
+      "id": "M092",
+      "matchNumber": 92,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Mon July 6, 01:00 UTC",
+      "sortDate": "2026-07-06T01:00:00.000Z",
+      "home": "Mexico",
+      "away": "England",
+      "venue": "Estadio Azteca, Mexico City"
+    },
+    {
+      "id": "M093",
+      "matchNumber": 93,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Mon July 6, 19:00 UTC",
+      "sortDate": "2026-07-06T19:00:00.000Z",
+      "home": "Portugal",
+      "away": "Spain",
+      "venue": "AT&T Stadium, Arlington"
+    },
+    {
+      "id": "M094",
+      "matchNumber": 94,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Tue July 7, 00:00 UTC",
+      "sortDate": "2026-07-07T00:00:00.000Z",
+      "home": "USA",
+      "away": "Belgium",
+      "venue": "Lumen Field, Seattle"
+    },
+    {
+      "id": "M095",
+      "matchNumber": 95,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Tue July 7, 16:01 UTC",
+      "sortDate": "2026-07-07T16:01:00.000Z",
+      "home": "Argentina",
+      "away": "Egypt",
+      "venue": "Mercedes-Benz Stadium, Atlanta"
+    },
+    {
+      "id": "M096",
+      "matchNumber": 96,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Tue July 7, 20:00 UTC",
+      "sortDate": "2026-07-07T20:00:00.000Z",
+      "home": "Switzerland",
+      "away": "Colombia",
+      "venue": "BC Place, Vancouver"
+    },
+    {
+      "id": "M097",
+      "matchNumber": 97,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Thu July 9, 20:00 UTC",
+      "sortDate": "2026-07-09T20:00:00.000Z",
+      "home": "France",
+      "away": "Morocco",
+      "venue": "Gillette Stadium, Foxborough"
+    },
+    {
+      "id": "M098",
+      "matchNumber": 98,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Fri July 10, 19:00 UTC",
+      "sortDate": "2026-07-10T19:00:00.000Z",
+      "home": "Spain",
+      "away": "Belgium",
+      "venue": "SoFi Stadium, Inglewood"
+    },
+    {
+      "id": "M099",
+      "matchNumber": 99,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Sat July 11, 21:00 UTC",
+      "sortDate": "2026-07-11T21:00:00.000Z",
+      "home": "Norway",
+      "away": "England",
+      "venue": "Hard Rock Stadium, Miami Gardens"
+    },
+    {
+      "id": "M100",
+      "matchNumber": 100,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Sun July 12, 01:00 UTC",
+      "sortDate": "2026-07-12T01:00:00.000Z",
+      "home": "Argentina",
+      "away": "Switzerland",
+      "venue": "Arrowhead Stadium, Kansas City"
+    },
+    {
+      "id": "M101",
+      "matchNumber": 101,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Tue July 14, 19:00 UTC",
+      "sortDate": "2026-07-14T19:00:00.000Z",
+      "home": "France",
+      "away": "Spain",
+      "venue": "AT&T Stadium, Arlington"
+    },
+    {
+      "id": "M102",
+      "matchNumber": 102,
+      "stage": "round_of_16",
+      "group": "A",
+      "dateLabel": "Wed July 15, 19:00 UTC",
+      "sortDate": "2026-07-15T19:00:00.000Z",
+      "home": "England",
+      "away": "Argentina",
+      "venue": "Mercedes-Benz Stadium, Atlanta"
+    },
+    {
+      "id": "M103",
+      "matchNumber": 103,
+      "stage": "third_place",
+      "group": "A",
+      "dateLabel": "Sat July 18, 21:00 UTC",
+      "sortDate": "2026-07-18T21:00:00.000Z",
+      "home": "Loser Match 101",
+      "away": "Loser Match 102",
+      "venue": "Hard Rock Stadium, Miami Gardens"
+    },
+    {
+      "id": "M104",
+      "matchNumber": 104,
+      "stage": "final",
+      "group": "A",
+      "dateLabel": "Sun July 19, 19:00 UTC",
+      "sortDate": "2026-07-19T19:00:00.000Z",
+      "home": "Winner Match 101",
+      "away": "Winner Match 102",
+      "venue": "MetLife Stadium, East Rutherford"
+    }
+  ]
+}

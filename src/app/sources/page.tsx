@@ -1,4 +1,6 @@
 import { OddsImportForm } from "@/components/OddsImportForm";
+import { RefreshNansenButton } from "@/components/RefreshNansenButton";
+import { RefreshPolymarketButton } from "@/components/RefreshPolymarketButton";
 import { RefreshOddsButton } from "@/components/RefreshOddsButton";
 import { TeamDataImportForm } from "@/components/TeamDataImportForm";
 import { data } from "@/lib/data";
@@ -119,7 +121,15 @@ export default async function SourcesPage() {
             Polymarket 这类预测市场只作为概率参考，页面会和传统博彩公司盘口分开标记。
           </p>
           <RefreshOddsButton />
+          <div style={{ height: 10 }} />
+          <RefreshPolymarketButton />
+          <div style={{ height: 10 }} />
+          <RefreshNansenButton />
           <div style={{ height: 14 }} />
+          <p className="note">
+              使用位置：导入后的 Polymarket 会标记为“预测市场”，聪明钱包 CSV 会标记为“聪明钱包”；两者都会进入近期单场预测、比赛页价格优势、复盘页盘口源和交易报告。聪明钱包自动抓取需要 Nansen/Arkham/Dune 这类数据源的 API Key 或你提供的钱包地址名单。
+          </p>
+          <div style={{ height: 10 }} />
           <OddsImportForm />
         </div>
       </section>
@@ -298,6 +308,7 @@ function DataStatusCard({
 }
 
 function marketKindLabel(kind: OddsQuote["marketKind"]): string {
+  if (kind === "smart_wallet") return "聪明钱包";
   return kind === "prediction_market" ? "预测市场" : "博彩公司";
 }
 

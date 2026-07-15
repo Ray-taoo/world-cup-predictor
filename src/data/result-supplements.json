@@ -8,5 +8,75 @@
     "sourceName": "ESPN / FOX Sports final score",
     "sourceUrl": "https://www.espn.com/soccer/match/_/gameId/760421/turkiye-australia",
     "verifiedAt": "2026-06-14T15:39:56.4775891+08:00"
+  },
+  {
+    "matchId": "M073",
+    "home": "South Africa",
+    "away": "Canada",
+    "homeScore": 0,
+    "awayScore": 1,
+    "sourceName": "FIFA / ESPN final score",
+    "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/south-africa-canada-review-highlights",
+    "verifiedAt": "2026-06-29T14:10:00+08:00"
+  },
+  {
+    "matchId": "M074",
+    "home": "Brazil",
+    "away": "Japan",
+    "homeScore": 2,
+    "awayScore": 1,
+    "sourceName": "FIFA final score",
+    "sourceUrl": "https://www.fifa.com/en/match-centre/match/17/285023/289287/400021516",
+    "verifiedAt": "2026-07-01T09:30:00+08:00"
+  },
+  {
+    "matchId": "M075",
+    "home": "Germany",
+    "away": "Paraguay",
+    "homeScore": 1,
+    "awayScore": 1,
+    "sourceName": "FIFA final score, Paraguay advanced 4-3 on penalties",
+    "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/germany-paraguay-review-highlights",
+    "verifiedAt": "2026-07-01T09:30:00+08:00"
+  },
+  {
+    "matchId": "M076",
+    "home": "Netherlands",
+    "away": "Morocco",
+    "homeScore": 1,
+    "awayScore": 1,
+    "sourceName": "FIFA final score, Morocco advanced 3-2 on penalties",
+    "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/netherlands-morocco-review-highlights",
+    "verifiedAt": "2026-07-01T09:30:00+08:00"
+  },
+  {
+    "matchId": "M077",
+    "home": "Ivory Coast",
+    "away": "Norway",
+    "homeScore": 1,
+    "awayScore": 2,
+    "sourceName": "FIFA final score",
+    "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/cote-divoire-norway-review-highlights",
+    "verifiedAt": "2026-07-01T09:30:00+08:00"
+  },
+  {
+    "matchId": "M078",
+    "home": "France",
+    "away": "Sweden",
+    "homeScore": 3,
+    "awayScore": 0,
+    "sourceName": "FIFA final score",
+    "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/france-sweden-review-highlights",
+    "verifiedAt": "2026-07-01T09:30:00+08:00"
+  },
+  {
+    "matchId": "M079",
+    "home": "Mexico",
+    "away": "Ecuador",
+    "homeScore": 2,
+    "awayScore": 0,
+    "sourceName": "FIFA final score",
+    "sourceUrl": "https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/mexico-ecuador-review-highlights",
+    "verifiedAt": "2026-07-01T12:50:00+08:00"
   }
 ]

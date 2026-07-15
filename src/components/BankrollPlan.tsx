@@ -1,8 +1,10 @@
 "use client";
 
-import { AlertTriangle, BarChart3, ShieldAlert } from "lucide-react";
+import { AlertTriangle, ShieldAlert } from "lucide-react";
 import type { StakeSeed } from "@/lib/selection";
 import type { StrategyStat } from "@/lib/risk";
+import type { NightlyRefreshState } from "@/lib/nightly-refresh";
+import { bttsTradePlan, goalsTradePlan, oneXTwoTradePlan, type ScoreLine, type TradePlan } from "@/lib/trade-plans";
 
 type Side = "home" | "draw" | "away";
 
@@ -20,34 +22,51 @@ interface MatchForecast {
   seed: StakeSeed;
   outcomes: OutcomeOption[];
   pick: OutcomeOption;
-  insuranceLabel: string;
-  insuranceProbability: number;
-  insuranceFairPrice: number;
+  riskLabel: string;
+  riskProbability: number;
   confidence: number;
   upsetRisk: number;
   upsetLevel: "低" | "中" | "高";
   favoriteBlankRisk: number;
+  smartMoneyScore: number;
+  smartMoneyStatus: StakeSeed["smartMoneyStatus"];
+  patternFitScore: number;
+  patternFitStatus: StakeSeed["patternFitStatus"];
+  marketDriftBadge: string;
+  marketDriftClassName: string;
+  marketTrendBadge: string;
+  marketTrendClassName: string;
+  stakeAdvice: string;
+  bttsPlan: TradePlan;
+  oneXTwoPlan: TradePlan;
+  goalsPlan: TradePlan;
   topScores: ScoreLine[];
   reason: string;
 }
 
-interface ScoreLine {
-  score: string;
-  probability: number;
-}
-
-export function BankrollPlan({ seeds, strategyStats }: { seeds: StakeSeed[]; strategyStats: StrategyStat[] }) {
-  const forecasts = seeds.slice(0, 8).map(buildForecast);
+export function BankrollPlan({
+  seeds,
+  strategyStats,
+  refreshState,
+  hybridTopScoresByMatch
+}: {
+  seeds: StakeSeed[];
+  strategyStats: StrategyStat[];
+  refreshState: NightlyRefreshState;
+  hybridTopScoresByMatch: Record<string, ScoreLine[]>;
+}) {
+  const forecasts = seeds.slice(0, 8).map((seed) => buildForecast(seed, hybridTopScoresByMatch[seed.matchId] ?? []));
   const highConfidenceStat = strategyStats.find((stat) => stat.threshold.startsWith("60")) ?? strategyStats[0] ?? null;
   const highUpsetCount = forecasts.filter((forecast) => forecast.upsetLevel === "高").length;
+  const oddsHealth = oddsHealthText(refreshState);
 
   return (
     <section className="panel bankroll-panel">
       <div className="section-title-row">
         <div>
-          <h2>明日单场胜平负预测</h2>
-          <p className="muted">取消 2 串 1，只给每场的胜/平/负方向、预测把握率、前三个可能比分，以及爆冷风险。</p>
-          <p className="muted">模型吸收两个思路：单场用攻防 xG 匹配生成比分分布；整届赛事继续用 10,000 次 Monte Carlo 做晋级概率。</p>
+          <h2>近期单场胜平负预测</h2>
+          <p className="muted">只给每场的胜/平/负方向、预测把握率、前三个可能比分，以及爆冷风险。</p>
+          <p className="muted">盘口状态：{oddsHealth}。模型吸收两个思路：单场用攻防 xG 匹配生成比分分布；整届赛事继续用 10,000 次 Monte Carlo 做晋级概率。</p>
         </div>
         <span className={highUpsetCount ? "pill warning" : "pill ok"}>
           <ShieldAlert size={14} />
@@ -59,7 +78,7 @@ export function BankrollPlan({ seeds, strategyStats }: { seeds: StakeSeed[]; str
         <div>
           <span>预测口径</span>
           <strong>单场胜平负</strong>
-          <p>不再输出 2 串 1，避免两场都对的组合概率过低。</p>
+          <p>只按单场比赛判断，不组合多场方案。</p>
         </div>
         <div>
           <span>回测参考</span>
@@ -72,19 +91,24 @@ export function BankrollPlan({ seeds, strategyStats }: { seeds: StakeSeed[]; str
           <p>用双方预期进球生成 0-0、1-0、1-1 等比分概率。</p>
         </div>
         <div>
-          <span>爆冷修正</span>
-          <strong>强队不胜风险</strong>
-          <p>热门方把握率不够高、或零进球概率偏高时单独标注。</p>
+          <span>聪明钱</span>
+          <strong>Commitment</strong>
+          <p>看多源赔率共识、本地 baseline 到当前移动、模型市场同向和价格优势。</p>
         </div>
       </div>
 
       <div className="daily-buy-board single-forecast-board">
         <div className="daily-buy-head">
-          <span>明日场次</span>
+          <span>未开赛场次</span>
           <strong>{forecasts.length} 场</strong>
           <span>红色为模型首选方向；黄色风险条表示需要防爆冷。</span>
         </div>
         <div className="forecast-list">
+          {!forecasts.length ? (
+            <div className="compact-item">
+              <span>当前赛程内没有未开赛比赛。导入下一批赛程后这里会自动恢复近期单场预测。</span>
+            </div>
+          ) : null}
           {forecasts.map((forecast) => (
             <article key={forecast.seed.id} className="forecast-card">
               <div className="forecast-match">
@@ -108,12 +132,12 @@ export function BankrollPlan({ seeds, strategyStats }: { seeds: StakeSeed[]; str
                     <strong>{percent(forecast.confidence)}</strong>
                   </div>
                   <div>
-                    <span>保险买法</span>
-                    <strong>{forecast.insuranceLabel}</strong>
+                    <span>主要风险</span>
+                    <strong>{forecast.riskLabel}</strong>
                   </div>
                   <div>
-                    <span>保险命中率</span>
-                    <strong>{percent(forecast.insuranceProbability)}</strong>
+                    <span>风险概率</span>
+                    <strong>{percent(forecast.riskProbability)}</strong>
                   </div>
                   <div>
                     <span>爆冷风险</span>
@@ -125,20 +149,40 @@ export function BankrollPlan({ seeds, strategyStats }: { seeds: StakeSeed[]; str
                     <span>热门零进球风险</span>
                     <strong>{percent(forecast.favoriteBlankRisk)}</strong>
                   </div>
+                  <div>
+                    <span>聪明钱</span>
+                    <strong className={smartMoneyClass(forecast.smartMoneyStatus)}>{forecast.smartMoneyScore}/100</strong>
+                  </div>
+                  <div>
+                    <span>Pattern</span>
+                    <strong className={patternFitClass(forecast.patternFitStatus)}>{forecast.patternFitScore}/100</strong>
+                  </div>
+                  <div>
+                    <span>盘口移动</span>
+                    <strong className={forecast.marketDriftClassName}>{forecast.marketDriftBadge}</strong>
+                  </div>
+                  <div>
+                    <span>盘口趋势</span>
+                    <strong className={forecast.marketTrendClassName}>{forecast.marketTrendBadge}</strong>
+                  </div>
                 </div>
                 <div className={forecast.upsetLevel === "高" ? "upset-note high" : "upset-note"}>
                   <AlertTriangle size={14} />
                   <span>{forecast.reason}</span>
                 </div>
-                <div className="insurance-note">
-                  <BarChart3 size={14} />
+                <div className="trade-system-row">
+                  <TradePlanBox title="双方进球" plan={forecast.bttsPlan} />
+                  <TradePlanBox title="胜平负" plan={forecast.oneXTwoPlan} />
+                  <TradePlanBox title="进球数范围" plan={forecast.goalsPlan} />
+                </div>
+                <div className="pattern-note">
+                  <AlertTriangle size={14} />
                   <span>
-                    {forecast.insuranceLabel} 覆盖两个结果，命中率高于单买 {forecast.pick.teamLabel}{forecast.pick.label}；
-                    但赔率会更低，只有实际赔率高于模型公允赔率 {forecast.insuranceFairPrice.toFixed(2)} 时才算有价格优势。
+                    {forecast.seed.patternFitStatus}：{forecast.seed.patternFitText}
                   </span>
                 </div>
                 <div className="scoreline-row">
-                  <span>前三比分</span>
+                  <span>Hybrid V2 前三比分</span>
                   {forecast.topScores.map((score) => (
                     <strong key={score.score}>{score.score} · {percent(score.probability)}</strong>
                   ))}
@@ -156,10 +200,10 @@ export function BankrollPlan({ seeds, strategyStats }: { seeds: StakeSeed[]; str
   );
 }
 
-function buildForecast(seed: StakeSeed): MatchForecast {
+function buildForecast(seed: StakeSeed, topScores: ScoreLine[]): MatchForecast {
   const outcomes = buildOutcomeOptions(seed);
   const pick = [...outcomes].sort((a, b) => b.probability - a.probability)[0];
-  const insurance = insurancePick(seed, pick, outcomes);
+  const mainRisk = riskPick(seed, pick, outcomes);
   const confidence = pick.probability;
   const upsetRisk = 1 - confidence;
   const favoriteBlankRisk = blankRisk(seed, pick.side);
@@ -168,34 +212,34 @@ function buildForecast(seed: StakeSeed): MatchForecast {
     seed,
     outcomes,
     pick,
-    insuranceLabel: insurance.label,
-    insuranceProbability: insurance.probability,
-    insuranceFairPrice: insurance.fairPrice,
+    riskLabel: mainRisk.label,
+    riskProbability: mainRisk.probability,
     confidence,
     upsetRisk,
     upsetLevel,
     favoriteBlankRisk,
-    topScores: topScorelines(seed.xgHome, seed.xgAway, 3),
+    smartMoneyScore: seed.smartMoneyScore,
+    smartMoneyStatus: seed.smartMoneyStatus,
+    patternFitScore: seed.patternFitScore,
+    patternFitStatus: seed.patternFitStatus,
+    marketDriftBadge: marketDriftBadge(seed),
+    marketDriftClassName: marketDriftClass(seed.marketDriftStatus),
+    marketTrendBadge: marketTrendBadge(seed),
+    marketTrendClassName: marketTrendClass(seed.marketTrendStatus),
+    stakeAdvice: seed.stakeAdvice,
+    bttsPlan: bttsTradePlan(seed),
+    oneXTwoPlan: oneXTwoTradePlan(seed),
+    goalsPlan: goalsTradePlan(seed),
+    topScores,
     reason: upsetReason(seed, pick, upsetRisk, favoriteBlankRisk, upsetLevel)
   };
 }
 
-function insurancePick(seed: StakeSeed, pick: OutcomeOption, outcomes: OutcomeOption[]): { label: string; probability: number; fairPrice: number } {
-  const home = outcomes.find((outcome) => outcome.side === "home")!;
-  const draw = outcomes.find((outcome) => outcome.side === "draw")!;
-  const away = outcomes.find((outcome) => outcome.side === "away")!;
-  if (pick.side === "away") {
-    const probability = away.probability + draw.probability;
-    return { label: `${seed.awayTeamLabel}不败（平负）`, probability, fairPrice: 1 / probability };
-  }
-  if (pick.side === "draw") {
-    const stronger = home.probability >= away.probability ? home : away;
-    const probability = draw.probability + stronger.probability;
-    const label = stronger.side === "home" ? `${seed.homeTeamLabel}不败（胜平）` : `${seed.awayTeamLabel}不败（平负）`;
-    return { label, probability, fairPrice: 1 / probability };
-  }
-  const probability = home.probability + draw.probability;
-  return { label: `${seed.homeTeamLabel}不败（胜平）`, probability, fairPrice: 1 / probability };
+function riskPick(seed: StakeSeed, pick: OutcomeOption, outcomes: OutcomeOption[]): { label: string; probability: number } {
+  const risk = outcomes.filter((outcome) => outcome.side !== pick.side).sort((a, b) => b.probability - a.probability)[0];
+  if (risk.side === "draw") return { label: "平局风险", probability: risk.probability };
+  if (risk.side === "home") return { label: `${seed.homeTeamLabel}反打`, probability: risk.probability };
+  return { label: `${seed.awayTeamLabel}反打`, probability: risk.probability };
 }
 
 function buildOutcomeOptions(seed: StakeSeed): OutcomeOption[] {
@@ -242,16 +286,14 @@ function OutcomeBox({ outcome, selected }: { outcome: OutcomeOption; selected: b
   );
 }
 
-function topScorelines(homeXg: number, awayXg: number, limit: number): ScoreLine[] {
-  const rows: ScoreLine[] = [];
-  for (let home = 0; home <= 5; home += 1) {
-    for (let away = 0; away <= 5; away += 1) {
-      let probability = poisson(homeXg, home) * poisson(awayXg, away);
-      if ((home === 0 && away === 0) || (home === 1 && away === 1)) probability *= 1.08;
-      rows.push({ score: `${home}-${away}`, probability });
-    }
-  }
-  return rows.sort((a, b) => b.probability - a.probability).slice(0, limit);
+function TradePlanBox({ title, plan }: { title: string; plan: TradePlan }) {
+  return (
+    <div className="trade-plan-box">
+      <span>{title}</span>
+      <strong>{plan.label}</strong>
+      <small>{percent(plan.confidence)}</small>
+    </div>
+  );
 }
 
 function poisson(lambda: number, goals: number): number {
@@ -288,6 +330,42 @@ function edgeClass(edge: number | null): string {
   return "edge-neutral";
 }
 
+function smartMoneyClass(status: StakeSeed["smartMoneyStatus"]): string {
+  if (status === "强 commitment" || status === "小注跟随") return "edge-positive";
+  if (status === "避开") return "edge-negative";
+  return "edge-neutral";
+}
+
+function patternFitClass(status: StakeSeed["patternFitStatus"]): string {
+  if (status === "pattern支持") return "edge-positive";
+  if (status === "pattern反对") return "edge-negative";
+  return "edge-neutral";
+}
+
+function marketDriftClass(status: StakeSeed["marketDriftStatus"]): string {
+  if (status === "顺向") return "edge-positive";
+  if (status === "反向") return "edge-negative";
+  return "edge-neutral";
+}
+
+function marketDriftBadge(seed: StakeSeed): string {
+  if (seed.marketDrift == null) return seed.marketDriftStatus;
+  const abs = Math.abs(seed.marketDrift);
+  const strength = abs >= 0.05 ? "强" : abs >= 0.025 ? "中" : "弱";
+  return `${strength}${seed.marketDriftStatus} ${signedPercent(seed.marketDrift)}`;
+}
+
+function marketTrendClass(status: StakeSeed["marketTrendStatus"]): string {
+  if (status === "持续压向") return "edge-positive";
+  if (status === "临场回撤" || status === "持续反向") return "edge-negative";
+  return "edge-neutral";
+}
+
+function marketTrendBadge(seed: StakeSeed): string {
+  if (seed.marketTrendMomentum == null) return seed.marketTrendStatus;
+  return `${seed.marketTrendStatus} ${signedPercent(seed.marketTrendMomentum)}`;
+}
+
 function percent(value: number): string {
   return `${(value * 100).toFixed(1)}%`;
 }
@@ -295,4 +373,17 @@ function percent(value: number): string {
 function signedPercent(value: number): string {
   const sign = value > 0 ? "+" : "";
   return `${sign}${percent(value)}`;
+}
+
+function oddsHealthText(state: NightlyRefreshState): string {
+  if (state.status === "ok") {
+    const missing = state.missingOddsMatchIds.length;
+    const coverage = `${state.oddsMatchIds.length}/${state.targetMatches || state.oddsMatchIds.length}`;
+    return missing
+      ? `已刷新 ${coverage} 场，仍缺 ${missing} 场盘口`
+      : `已刷新 ${coverage} 场近期盘口`;
+  }
+  if (state.status === "running") return "正在刷新盘口";
+  if (state.status === "error") return `盘口刷新失败，当前用本地已有赔率（${state.error ?? "未知错误"}）`;
+  return "尚未执行今日盘口刷新，当前用本地已有赔率";
 }
