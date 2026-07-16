@@ -260,7 +260,7 @@ async function fetchTheScoreScheduleResults(fixtures, knownResults, normalTimeMa
     const needsResult = !knownIds.has(match.id) && inRecentSyncWindow(match);
     const needsNormalTime = match.stage !== "group" && !normalTimeMatchIds.has(match.id) && new Date(match.sortDate).getTime() <= Date.now();
     if (!needsResult && !needsNormalTime) continue;
-    const event = events.find((item) => sameMatch(match, item));
+    const event = selectTheScoreEvent(events, match);
     if (!event) continue;
     const source = {
       externalMatchId: event.externalMatchId,
@@ -274,9 +274,13 @@ async function fetchTheScoreScheduleResults(fixtures, knownResults, normalTimeMa
     let score = { homeScore: event.homeScore, awayScore: event.awayScore };
     if (match.stage !== "group" && !normalTimeMatchIds.has(match.id)) {
       try {
-        score = { ...score, ...(parseTheScoreDetail(await fetchText(source.url)) ?? {}) };
+        const detail = parseTheScoreDetail(await fetchText(source.url));
+        if (detail) score = reconcileNormalTimeScore({ ...score, ...detail });
       } catch {
         // Keep the final result, but never infer a 90-minute score from it.
+      }
+      if (event.progressDescription === "Final" && event.segmentShort === "2nd") {
+        score = reconcileNormalTimeScore({ ...score, matchStatus: "finished", extraTimeScore: null, penaltyScore: null });
       }
     }
     await recordResultSync(match, source, score.matchStatus ?? "finished", score, null);
@@ -300,6 +304,9 @@ export function parseTheScoreScheduleEvents(html) {
   const events = [];
   const eventPattern = /\{\\"__typename\\":\\"SoccerEvent\\",\\"id\\":\\"SoccerEvent:(\d+)\\"[\s\S]*?\\"startsAt\\":\\"([^"]+)\\"[\s\S]*?\\"eventStatus\\":\\"([^"]+)\\"[\s\S]*?\\"homeTeam\\":\{[\s\S]*?\\"name\\":\\"([^"]+)\\"[\s\S]*?\\"awayTeam\\":\{[\s\S]*?\\"name\\":\\"([^"]+)\\"[\s\S]*?\\"boxScore\\":\{[\s\S]*?\\"homeScore\\":(\d+),\\"awayScore\\":(\d+)/g;
   for (const found of html.matchAll(eventPattern)) {
+    const nextEvent = html.indexOf('{\\"__typename\\":\\"SoccerEvent\\"', found.index + 1);
+    const eventHtml = html.slice(found.index, nextEvent < 0 ? found.index + 3000 : nextEvent);
+    const progress = eventHtml.match(/\\"progress\\":\{[\s\S]*?\\"description\\":\\"([^\"]+)\\"[\s\S]*?\\"segmentShort\\":\\"([^\"]+)\\"/);
     events.push({
       externalMatchId: found[1],
       startsAt: found[2],
@@ -307,10 +314,19 @@ export function parseTheScoreScheduleEvents(html) {
       home: found[4],
       away: found[5],
       homeScore: Number(found[6]),
-      awayScore: Number(found[7])
+      awayScore: Number(found[7]),
+      progressDescription: progress?.[1] ?? null,
+      segmentShort: progress?.[2] ?? null
     });
   }
   return events;
+}
+
+export function selectTheScoreEvent(events, match) {
+  const candidates = events.filter((event) => sameMatch(match, event));
+  return candidates.find((event) => event.progressDescription === "Final" && event.segmentShort != null)
+    ?? candidates.find((event) => isFinishedStatus(event.status))
+    ?? candidates[0];
 }
 
 export function parseTheScoreDetail(html) {
@@ -374,7 +390,8 @@ async function backfillNormalTimeScores(fixtures) {
     try {
       const detail = parseTheScoreDetail(await fetchText(source.url));
       if (!detail) continue;
-      await recordResultSync(match, source, detail.matchStatus, { homeScore: row.homeScore, awayScore: row.awayScore, ...detail }, null);
+      const score = reconcileNormalTimeScore({ homeScore: row.homeScore, awayScore: row.awayScore, ...detail });
+      await recordResultSync(match, source, detail.matchStatus, score, null);
       backfilled += 1;
     } catch {
       // Retry this single missing 90-minute score on the next automatic refresh.
@@ -654,6 +671,9 @@ async function recordResultSync(match, source, status, score, error) {
   const retryCount = score ? 0 : existingRetryCount + 1;
   const externalMatchId = source.externalMatchId == null ? null : String(source.externalMatchId);
   const normalizedStatus = normalizeResultStatus(status);
+  if (score?.normalTimeHomeScore != null && score.normalTimeAwayScore != null) {
+    score = reconcileNormalTimeScore({ ...score, matchStatus: normalizedStatus });
+  }
   const dedupeKey = JSON.stringify([
     match.id,
     externalMatchId,
@@ -816,10 +836,33 @@ async function readNormalTimeMatchIds() {
   try {
     const columns = new Set((db.exec("PRAGMA table_info(result_sync_status)")[0]?.values ?? []).map((row) => String(row[1])));
     if (!columns.has("normal_time_home_score") || !columns.has("normal_time_away_score")) return new Set();
-    return new Set((db.exec("SELECT match_id FROM result_sync_status WHERE normal_time_home_score IS NOT NULL AND normal_time_away_score IS NOT NULL")[0]?.values ?? []).map((row) => String(row[0])));
+    const rows = db.exec(`
+      SELECT match_id, match_status, home_score, away_score,
+             normal_time_home_score, normal_time_away_score, extra_time_score, penalty_score
+      FROM result_sync_status
+    `)[0]?.values ?? [];
+    return new Set(rows.filter((row) => normalTimeScoreIsUsable({
+      matchStatus: row[1], homeScore: row[2], awayScore: row[3],
+      normalTimeHomeScore: row[4], normalTimeAwayScore: row[5],
+      extraTimeScore: row[6], penaltyScore: row[7]
+    })).map((row) => String(row[0])));
   } finally {
     db.close();
   }
+}
+
+export function normalTimeScoreIsUsable(score) {
+  if (score.normalTimeHomeScore == null || score.normalTimeAwayScore == null) return false;
+  if (normalizeResultStatus(score.matchStatus) !== "finished") return true;
+  if (score.extraTimeScore != null || score.penaltyScore != null) return true;
+  return Number(score.normalTimeHomeScore) === Number(score.homeScore)
+    && Number(score.normalTimeAwayScore) === Number(score.awayScore);
+}
+
+export function reconcileNormalTimeScore(score) {
+  if (normalizeResultStatus(score.matchStatus) !== "finished") return score;
+  if (score.extraTimeScore != null || score.penaltyScore != null) return score;
+  return { ...score, normalTimeHomeScore: score.homeScore, normalTimeAwayScore: score.awayScore };
 }
 
 function canonicalTeam(name) {

@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import fs from "node:fs";
-import { fifaArticleCandidates, mergeResults, normalizeResultStatus, parseArticleResult, parseTheScoreDetail, parseTheScoreEvent, parseTheScoreScheduleEvents, postMatchAnalysisStatus } from "./refresh-results.mjs";
+import initSqlJs from "sql.js";
+import { fifaArticleCandidates, mergeResults, normalTimeScoreIsUsable, normalizeResultStatus, parseArticleResult, parseTheScoreDetail, parseTheScoreEvent, parseTheScoreScheduleEvents, postMatchAnalysisStatus, reconcileNormalTimeScore, selectTheScoreEvent } from "./refresh-results.mjs";
 
 const html = (scoreboard) => `<html><body>MATCHUP Demo FS1 ${scoreboard} Timeline</body></html>`;
 
@@ -63,7 +64,7 @@ assert.deepEqual(
   { homeScore: 0, awayScore: 1 }
 );
 assert.deepEqual(
-  parseTheScoreScheduleEvents('selectedGroup\\":{\\"events\\":[{\\"__typename\\":\\"SoccerEvent\\",\\"id\\":\\"SoccerEvent:93020\\",\\"bareId\\":93020,\\"startsAt\\":\\"2026-07-04T17:00:00Z\\",\\"eventStatus\\":\\"FINAL\\",\\"homeTeam\\":{\\"__typename\\":\\"SoccerTeam\\",\\"name\\":\\"Canada\\"},\\"awayTeam\\":{\\"__typename\\":\\"SoccerTeam\\",\\"name\\":\\"Morocco\\"},\\"boxScore\\":{\\"__typename\\":\\"SoccerBoxScore\\",\\"homeScore\\":0,\\"awayScore\\":3}}]}'),
+  parseTheScoreScheduleEvents('selectedGroup\\":{\\"events\\":[{\\"__typename\\":\\"SoccerEvent\\",\\"id\\":\\"SoccerEvent:93020\\",\\"bareId\\":93020,\\"startsAt\\":\\"2026-07-04T17:00:00Z\\",\\"eventStatus\\":\\"FINAL\\",\\"homeTeam\\":{\\"__typename\\":\\"SoccerTeam\\",\\"name\\":\\"Canada\\"},\\"awayTeam\\":{\\"__typename\\":\\"SoccerTeam\\",\\"name\\":\\"Morocco\\"},\\"boxScore\\":{\\"__typename\\":\\"SoccerBoxScore\\",\\"homeScore\\":0,\\"awayScore\\":3,\\"progress\\":{\\"description\\":\\"Final\\",\\"clock\\":\\"90\' + 8\'\\",\\"segmentShort\\":\\"2nd\\"}}}]}'),
   [
     {
       externalMatchId: "93020",
@@ -72,13 +73,25 @@ assert.deepEqual(
       home: "Canada",
       away: "Morocco",
       homeScore: 0,
-      awayScore: 3
+      awayScore: 3,
+      progressDescription: "Final",
+      segmentShort: "2nd"
     }
   ]
 );
+const duplicateEventMatch = { home: "England", away: "Argentina", sortDate: "2026-07-15T19:00:00Z" };
+const staleEvent = { home: "England", away: "Argentina", startsAt: "2026-07-15T19:00:00Z", status: "FINAL", progressDescription: null, segmentShort: null };
+const finalEvent = { ...staleEvent, progressDescription: "Final", segmentShort: "2nd" };
+assert.equal(selectTheScoreEvent([staleEvent, finalEvent], duplicateEventMatch), finalEvent);
 assert.deepEqual(
   parseTheScoreDetail('\\"line_scores\\":{\\"home\\":[{\\"score\\":1,\\"segment_string\\":\\"1\\"},{\\"score\\":0,\\"segment_string\\":\\"2\\"},{\\"score\\":2,\\"segment_string\\":\\"ET2\\"},{\\"score\\":0,\\"segment_string\\":\\"ET1\\"}],\\"away\\":[{\\"score\\":0,\\"segment_string\\":\\"1\\"},{\\"score\\":1,\\"segment_string\\":\\"2\\"},{\\"score\\":0,\\"segment_string\\":\\"ET1\\"},{\\"score\\":0,\\"segment_string\\":\\"ET2\\"}]},\\"home_shootout_goals\\":null,\\"away_shootout_goals\\":null'),
   { normalTimeHomeScore: 1, normalTimeAwayScore: 1, extraTimeScore: "2-0", penaltyScore: null, matchStatus: "finished_after_extra_time" }
+);
+assert.equal(normalTimeScoreIsUsable({ matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 0, normalTimeAwayScore: 0, extraTimeScore: null, penaltyScore: null }), false);
+assert.equal(normalTimeScoreIsUsable({ matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 1, normalTimeAwayScore: 2, extraTimeScore: null, penaltyScore: null }), true);
+assert.deepEqual(
+  reconcileNormalTimeScore({ matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 0, normalTimeAwayScore: 0, extraTimeScore: null, penaltyScore: null }),
+  { matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 1, normalTimeAwayScore: 2, extraTimeScore: null, penaltyScore: null }
 );
 assert.equal(new Date("2026-06-30T17:00:00.000Z").toISOString(), "2026-06-30T17:00:00.000Z");
 assert.deepEqual(
@@ -94,5 +107,19 @@ assert.ok(fifaArticleCandidates({ home: "Paraguay", away: "France" }).includes("
 assert.ok(fifaArticleCandidates({ home: "Canada", away: "Morocco" }).includes("https://www.fifa.com/en/tournaments/mens/worldcup/canadamexicousa2026/articles/canada-morocco-match-report-highlights"));
 assert.match(fs.readFileSync("scripts/start-local-site.ps1", "utf8"), /refresh:results/);
 assert.match(fs.readFileSync("scripts/start-local.mjs", "utf8"), /refresh-results\.mjs/);
+
+if (fs.existsSync(".local/worldcup.sqlite")) {
+  const SQL = await initSqlJs();
+  const db = new SQL.Database(fs.readFileSync(".local/worldcup.sqlite"));
+  const invalid = db.exec(`
+    SELECT match_id FROM result_sync_status
+    WHERE match_status = 'finished'
+      AND extra_time_score IS NULL AND penalty_score IS NULL
+      AND normal_time_home_score IS NOT NULL AND normal_time_away_score IS NOT NULL
+      AND (normal_time_home_score <> home_score OR normal_time_away_score <> away_score)
+  `)[0]?.values ?? [];
+  db.close();
+  assert.deepEqual(invalid, [], `invalid 90-minute scores: ${invalid.map((row) => row[0]).join(", ")}`);
+}
 
 console.log("result sync parser ok");

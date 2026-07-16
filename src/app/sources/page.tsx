@@ -266,9 +266,6 @@ export default async function SourcesPage() {
       <p className="note" style={{ marginTop: 16 }}>
         Polymarket 的价格来自预测市场交易，不等同于传统 1X2 博彩盘口；导入后会标记为“预测市场”，只作为融合参考。所有手工数据请保留来源链接和更新时间。
       </p>
-      <p className="note" style={{ marginTop: 12 }}>
-        关于分享链接：127.0.0.1 和 shijiebeipredict 都是本机地址，发给别人会指向对方自己的电脑，所以打不开。要给别人访问，需要后续做公网部署、临时隧道，或在同一局域网里配置访问。
-      </p>
     </>
   );
 }
