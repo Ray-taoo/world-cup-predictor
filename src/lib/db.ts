@@ -640,12 +640,20 @@ export async function readTeamInputs(): Promise<TeamInput[]> {
   if (d1) {
     const { results } = await d1.prepare(`SELECT team_name, fifa_rank, market_value_eur_m, projected_xi_value_eur_m,
       injuries, suspensions, key_absences, lineup_checked_at, updated_at, source_url FROM team_inputs ORDER BY updated_at DESC`).bind().all<Record<string, unknown>>();
-    return results.map((row) => ({
+    const inputs = results.map((row) => ({
       teamName: String(row.team_name), fifaRank: nullableNumber(row.fifa_rank), marketValueEurM: nullableNumber(row.market_value_eur_m),
       projectedXIValueEurM: nullableNumber(row.projected_xi_value_eur_m), injuries: Number(row.injuries), suspensions: Number(row.suspensions),
       keyAbsences: Number(row.key_absences), lineupCheckedAt: row.lineup_checked_at == null ? null : String(row.lineup_checked_at),
       updatedAt: String(row.updated_at), sourceUrl: String(row.source_url)
     }));
+    try {
+      const official = await d1.prepare(`SELECT team_name, COUNT(DISTINCT player_name) AS suspension_count
+        FROM official_availability_reports WHERE availability_type='suspension' AND confirmation_status='confirmed'
+        AND active=1 AND report_date >= date('now') GROUP BY team_name`).bind().all<Record<string, unknown>>();
+      return applyOfficialSuspensions(inputs, official.results.map((row) => [row.team_name, row.suspension_count]));
+    } catch {
+      return inputs;
+    }
   }
   if (process.env.VERCEL) {
     return data.teams.map((team) => ({
@@ -670,7 +678,6 @@ export async function readTeamInputs(): Promise<TeamInput[]> {
      FROM team_inputs
      ORDER BY updated_at DESC`
   );
-  db.close();
   const value = (result[0]?.values ?? []).map((row) => ({
     teamName: String(row[0]),
     fifaRank: row[1] == null ? null : Number(row[1]),
@@ -683,8 +690,19 @@ export async function readTeamInputs(): Promise<TeamInput[]> {
     updatedAt: String(row[8]),
     sourceUrl: String(row[9])
   }));
-  teamInputsCache = { revision, value };
-  return value;
+  const tableExists = Boolean(db.exec("SELECT 1 FROM sqlite_master WHERE type='table' AND name='official_availability_reports'")[0]?.values.length);
+  const official = tableExists ? db.exec(`SELECT team_name, COUNT(DISTINCT player_name) FROM official_availability_reports
+    WHERE availability_type='suspension' AND confirmation_status='confirmed' AND active=1
+    AND report_date >= date('now') GROUP BY team_name`)[0]?.values ?? [] : [];
+  db.close();
+  const merged = applyOfficialSuspensions(value, official);
+  teamInputsCache = { revision, value: merged };
+  return merged;
+}
+
+function applyOfficialSuspensions(inputs: TeamInput[], rows: unknown[][]): TeamInput[] {
+  const counts = new Map(rows.map((row) => [String(row[0]), Number(row[1])]));
+  return inputs.map((input) => counts.has(input.teamName) ? { ...input, suspensions: counts.get(input.teamName)! } : input);
 }
 
 function fileRevision(...files: string[]): string {
