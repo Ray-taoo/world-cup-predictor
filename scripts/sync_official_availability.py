@@ -80,7 +80,7 @@ def source_upsert(source_key: str, report_date: str | None, source_url: str, pub
 
 def build_sql(today: date) -> tuple[str, dict[str, object]]:
     fetched_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
-    statements = ["BEGIN;"]
+    statements: list[str] = []
     summary: dict[str, object] = {"fetchedAt": fetched_at, "documents": 0, "records": 0, "errors": []}
     try:
         page = json.loads(fetch(PAGE_API))
@@ -91,7 +91,6 @@ def build_sql(today: date) -> tuple[str, dict[str, object]]:
         message = str(error)[:500]
         statements.append(source_upsert("fifa-disciplinary:catalog", None, PAGE_API, None, fetched_at, "error", 0, message))
         summary["errors"] = [message]
-        statements.append("COMMIT;")
         return "\n".join(statements) + "\n", summary
 
     for item in catalog.get("items", []):
@@ -122,7 +121,6 @@ def build_sql(today: date) -> tuple[str, dict[str, object]]:
             message = str(error)[:500]
             statements.append(source_upsert(source_key, report_day.isoformat(), source_url, None, fetched_at, "error", 0, message))
             summary["errors"].append(message)
-    statements.append("COMMIT;")
     return "\n".join(statements) + "\n", summary
 
 
