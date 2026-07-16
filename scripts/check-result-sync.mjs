@@ -89,6 +89,7 @@ assert.deepEqual(
 );
 assert.equal(normalTimeScoreIsUsable({ matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 0, normalTimeAwayScore: 0, extraTimeScore: null, penaltyScore: null }), false);
 assert.equal(normalTimeScoreIsUsable({ matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 1, normalTimeAwayScore: 2, extraTimeScore: null, penaltyScore: null }), true);
+assert.equal(normalTimeScoreIsUsable({ matchStatus: "retrying", homeScore: null, awayScore: null, normalTimeHomeScore: 0, normalTimeAwayScore: 0, extraTimeScore: null, penaltyScore: null }), false);
 assert.deepEqual(
   reconcileNormalTimeScore({ matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 0, normalTimeAwayScore: 0, extraTimeScore: null, penaltyScore: null }),
   { matchStatus: "finished", homeScore: 1, awayScore: 2, normalTimeHomeScore: 1, normalTimeAwayScore: 2, extraTimeScore: null, penaltyScore: null }

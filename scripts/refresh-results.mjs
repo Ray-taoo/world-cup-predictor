@@ -714,15 +714,15 @@ async function recordResultSync(match, source, status, score, error) {
      ON CONFLICT(match_id) DO UPDATE SET
        external_match_id = excluded.external_match_id,
        kickoff_time_utc = excluded.kickoff_time_utc,
-      match_status = excluded.match_status,
-      home_score = excluded.home_score,
-      away_score = excluded.away_score,
+      match_status = CASE WHEN excluded.home_score IS NULL OR excluded.away_score IS NULL THEN result_sync_status.match_status ELSE excluded.match_status END,
+      home_score = COALESCE(excluded.home_score, result_sync_status.home_score),
+      away_score = COALESCE(excluded.away_score, result_sync_status.away_score),
       normal_time_home_score = COALESCE(excluded.normal_time_home_score, normal_time_home_score),
       normal_time_away_score = COALESCE(excluded.normal_time_away_score, normal_time_away_score),
       extra_time_score = COALESCE(excluded.extra_time_score, extra_time_score),
       penalty_score = COALESCE(excluded.penalty_score, penalty_score),
        result_source = excluded.result_source,
-       result_updated_at = excluded.result_updated_at,
+       result_updated_at = COALESCE(excluded.result_updated_at, result_sync_status.result_updated_at),
        last_result_check_at = excluded.last_result_check_at,
        result_sync_error = excluded.result_sync_error,
        post_match_analysis_status = excluded.post_match_analysis_status,
@@ -853,7 +853,10 @@ async function readNormalTimeMatchIds() {
 
 export function normalTimeScoreIsUsable(score) {
   if (score.normalTimeHomeScore == null || score.normalTimeAwayScore == null) return false;
-  if (normalizeResultStatus(score.matchStatus) !== "finished") return true;
+  const status = normalizeResultStatus(score.matchStatus);
+  if (!["finished", "finished_after_extra_time", "finished_after_penalties"].includes(status)) return false;
+  if (score.homeScore == null || score.awayScore == null) return false;
+  if (status !== "finished") return true;
   if (score.extraTimeScore != null || score.penaltyScore != null) return true;
   return Number(score.normalTimeHomeScore) === Number(score.homeScore)
     && Number(score.normalTimeAwayScore) === Number(score.awayScore);
