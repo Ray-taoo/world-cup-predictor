@@ -1,5 +1,13 @@
 # Project Status
 
+## Latest 2026-07-16 public repair
+
+- Current Worker version: `bd4cbcd8-2eff-4ef5-9df1-6c4fe9dc91c1`; initial rollback target: `d87114fe-bf01-47f5-8634-94d870c70dd4`; immediate previous healthy version: `4919dc4a-be30-498b-8e0c-4a349c4b35ba`.
+- M102 is `England 1-2 Argentina` for both final and 90-minute scores; extra time and penalties are null. Result-sync regression checks, typecheck, production build, six-page HTTP checks, D1 checks, and Worker tail checks passed.
+- D1 migration `0004_official_availability.sql` is applied. FIFA official disciplinary PDFs are synchronized by GitHub Actions; two future reports fetched with zero confirmed suspensions and zero errors. Official injuries remain unavailable and are not fabricated.
+- Cron `*/15 * * * *` is enqueueing requests. Authenticated manual Actions run `29474892301` succeeded; all 23 queued requests are completed, active snapshot is `slot-a`, and no request has an error.
+- The original project `D:\codex project\worldcup` remained read-only: final Git status/diff/untracked payload exactly matches the saved baseline. Port 3000 was unreachable before and after this work and was never started or stopped.
+
 ## Latest 2026-07-15 Cloudflare Free deployment
 
 - Replaced request-time OpenNext/model/simulation work with precomputed page snapshots stored in D1 and a 2 KB Worker request path.

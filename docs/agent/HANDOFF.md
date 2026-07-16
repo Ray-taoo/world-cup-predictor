@@ -1,5 +1,13 @@
 # Handoff
 
+## 2026-07-16 public repair complete
+
+Public Worker `worldcup-predictor` is live at `https://worldcup-predictor.worldcupball.workers.dev/`, version `bd4cbcd8-2eff-4ef5-9df1-6c4fe9dc91c1`. The pre-work rollback target is `d87114fe-bf01-47f5-8634-94d870c70dd4`; the immediately previous healthy version is `4919dc4a-be30-498b-8e0c-4a349c4b35ba`.
+
+M102 is fixed in D1 as final and normal-time `1-2`, with no extra-time or penalty score. The result sync now prefers final duplicate events, requires a completed record before accepting normal-time scores, and preserves confirmed results when a source fails. `/sources` no longer contains the localhost sharing paragraph.
+
+Migration `0004_official_availability.sql` is applied. GitHub Actions reads FIFA's official disciplinary-preview PDFs and writes confirmed suspensions plus source audit rows to D1. The latest future reports (2026-07-18 and 2026-07-19) were fetched successfully and contain zero suspensions. No reliable unified free official injury feed was found, so injuries remain missing rather than inferred. Cron remains `*/15 * * * *`; manual run `29474892301` completed all queued requests without errors.
+
 ## 2026-07-15 Cloudflare Free deployment
 
 The public site now uses a CPU-safe snapshot Worker at `https://worldcup-predictor.worldcupball.workers.dev/`. GitHub Actions renders the existing Next.js pages against a temporary D1 export, publishes six page snapshots through an atomic D1 pointer, and only deploys Worker code on code/manual runs. The Worker performs one D1 query per page and falls back to bundled HTML. Current version is `6ef621fc-c4fe-4893-a1ce-7d978a885303`; the original rollback target remains `9c8180ed-4551-47d3-8558-f1fcfffd45b4`. D1 migration `0003_site_snapshots.sql` is applied. Do not restore the failed OpenNext versions.
