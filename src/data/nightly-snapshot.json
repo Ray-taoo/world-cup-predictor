@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2026-10-30T18:24:41.984Z",
+  "generatedAt": "2026-10-31T17:30:32.392Z",
   "state": {
     "status": "ok",
-    "lastAttemptAt": "2026-10-30T18:24:41.984Z",
-    "lastSuccessAt": "2026-10-30T18:24:41.984Z",
-    "beijingRunDate": "2026-10-31",
-    "targetDate": "2026-10-31,2026-11-01",
+    "lastAttemptAt": "2026-10-31T17:30:32.392Z",
+    "lastSuccessAt": "2026-10-31T17:30:32.392Z",
+    "beijingRunDate": "2026-11-01",
+    "targetDate": "2026-11-01,2026-11-02",
     "targetMatches": 0,
     "oddsFetched": 0,
     "oddsImported": 0,
